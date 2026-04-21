@@ -1,0 +1,41 @@
+{
+  "name": "@kmuip/pws-types",
+  "version": "0.1.0",
+  "description": "TypeScript types for the Netwrix Password Secure JavaScript runtime and published API docs.",
+  "license": "MIT",
+  "homepage": "https://www.kmupartnergroup.ch",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.d.ts",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts"
+    },
+    "./data": {
+      "types": "./dist/data/index.d.ts"
+    },
+    "./enum-constants": {
+      "types": "./dist/enum-constants/index.d.ts"
+    },
+    "./enums": {
+      "types": "./dist/enums.d.ts"
+    },
+    "./managers": {
+      "types": "./dist/managers/index.d.ts"
+    },
+    "./runtime": {
+      "types": "./dist/runtime.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "prepack": "bun run build"
+  }
+}

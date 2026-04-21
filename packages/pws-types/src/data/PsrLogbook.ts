@@ -1,0 +1,23 @@
+import type { PsrGuid } from '../base'
+import type { PsrLogbookEvent, PsrSyncOperation } from '../enum-constants'
+
+export type PsrLogbook = {
+  __type: string
+  ClientComputerName?: string
+  ClientIpAdress?: string
+  ClientMacAdress?: string
+  ClientType?: string
+  ClientUser?: string
+  DataActiveDirectoryProfileId?: PsrGuid
+  DataId?: PsrGuid
+  DataName?: string
+  DataType?: string
+  Id: PsrGuid
+  Info?: string
+  LogbookEvent?: PsrLogbookEvent
+  OrganisationUnit?: string
+  OrganisationUnitId?: PsrGuid
+  SyncOperation?: PsrSyncOperation
+  TimeStampUtc?: Date
+  TransactionId?: PsrGuid
+}

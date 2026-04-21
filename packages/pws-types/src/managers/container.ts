@@ -1,0 +1,43 @@
+import type { PsrByteArray, PsrGuid } from '../base'
+import type {
+  PsrContainerListFilter,
+  PsrContainer,
+  PsrContainerItem,
+  PsrCredentialCheck,
+  PsrDataRightTemplate,
+  PsrBehaviours,
+  PsrContainerHistory,
+} from '../data'
+import { PsrContainerItemType, PsrContainerType } from '../enum-constants'
+
+export type ContainerManager = {
+  getContainerListFilter(type: PsrContainerType, defaultFilter: boolean): Promise<PsrContainerListFilter>
+  getContainerList(
+    containerType: PsrContainerType,
+    containerListFilter: PsrContainerListFilter,
+    behaviours?: PsrBehaviours,
+  ): Promise<PsrContainer[]>
+  getContainerCount(containerType: PsrContainerType, containerListFilter: PsrContainerListFilter): Promise<number>
+  getContainer(containerId: PsrGuid): Promise<PsrContainer>
+  updateContainer(container: PsrContainer, behaviours: PsrBehaviours): Promise<PsrContainer>
+  addContainer(
+    container: PsrContainer,
+    parentOrganisationUnitId: PsrGuid | null,
+    rightTemplates: PsrDataRightTemplate[] | null,
+    templateGroupId: PsrGuid | null,
+  ): Promise<PsrContainer>
+  initContainerItem(containerItemType: PsrContainerItemType): Promise<PsrContainerItem>
+  deleteContainer(container: PsrContainer): Promise<void> | void
+  getContainerItemWithSecretValue(itemId: PsrGuid, reason: string): Promise<PsrContainerItem>
+  getContainerItem(itemId: PsrGuid): Promise<PsrContainerItem>
+  createContainerFromBaseContainer(baseContainer: PsrContainer, newContainerType: PsrContainerType): PsrContainer
+  decryptContainerItem(item: PsrContainerItem, reason: string): Promise<string>
+  encryptContainerItem(item: PsrContainerItem, plaintext: string): PsrByteArray
+  getContainerInvolvedOrganisationUnit(dataId: PsrGuid): Promise<PsrGuid[]>
+  getContainerHistoryList(containerType: PsrContainerType, id: PsrGuid): Promise<PsrContainerHistory[]>
+  getContainerBrowserSsoList(getContainersWithoutUrl: boolean): Promise<PsrContainer[]>
+  SearchContainersBrowserSsoList(searchValue: string): Promise<PsrContainer[]>
+  cloneContainer(baseContainerId: PsrGuid): Promise<PsrContainer>
+  initContainer(containerType: PsrContainerType): Promise<PsrContainer>
+  getCredentialCheck(containerId: PsrGuid): Promise<PsrCredentialCheck>
+}

@@ -1,0 +1,21 @@
+import type { PsrGuid } from '../base'
+
+export type PsrData = {
+  Id: PsrGuid
+  ChangedOrganisationUnit?: string
+  ChangedOrganisationUnitId?: string
+  ChildDataBindings?: any[]
+  DataRights?: any[]
+  DataStates?: any[]
+  DataTags?: any[]
+  HasTrigger?: boolean
+  HasTriggerAlert?: boolean
+  IsFavorite?: boolean
+  LogbookEntries?: any[]
+  ParentDataBindings?: any[]
+  PublicKey?: string
+  SyncOperation?: string
+  TimeStampUtc?: Date
+  TransactionId?: string
+  ValidTimeStampUtc?: Date
+}

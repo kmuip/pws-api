@@ -1,0 +1,34 @@
+import type { PsrGuid } from '../base'
+import type { PsrServerKeyType, PsrSyncOperation } from '../enum-constants'
+import { PsrDataBinding } from './PsrDataBinding'
+import { PsrDataRight } from './PsrDataRight'
+
+export type PsrSeal = {
+  Id: PsrGuid
+  ChangedOrganisationUnit?: string
+  ChangedOrganisationUnitId?: string
+  ChildDataBindings?: any[]
+  DataRights?: PsrDataRight[]
+  DataStates?: any[]
+  DataTags?: any[]
+  HasTrigger?: boolean
+  HasTriggerAlert?: boolean
+  IsFavorite?: boolean
+  LogbookEntries?: any[]
+  ParentDataBindings?: PsrDataBinding[]
+  PublicKey?: string
+  SyncOperation?: PsrSyncOperation
+  TimeStampUtc?: Date
+  TransactionId?: PsrGuid
+  ValidTimeStampUtc?: Date
+  __type: string
+  AllowMultiBreak?: boolean
+  BreakRunTime?: number
+  Description?: string
+  EncryptionKeyType?: PsrServerKeyType
+  Keys?: any[]
+  Name?: string
+  ReleaseRequiredAll?: boolean
+  ReleaseRunTime?: number
+  RequiredReleases?: number
+}
