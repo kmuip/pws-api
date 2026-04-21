@@ -35,6 +35,58 @@ Dry-run the published package:
 bun run types:pack
 ```
 
+## Publish The Types
+
+Publish `@kmuip/pws-types` from `packages/pws-types`.
+
+Prerequisites:
+
+- the `kmuip` scope exists on npm
+- your npm user has publish rights for that scope
+- you are logged in locally with `npm login`
+
+Recommended publish flow:
+
+```bash
+bun install
+bun run types:check
+bun run types:build
+cd packages/pws-types
+bun publish --access public
+```
+
+For the first public publish of a scoped package, `--access public` is required.
+
+If Bun returns a scope or registry error on the first publish, verify your npm registry config:
+
+```bash
+npm whoami
+npm config get registry
+npm config get @kmuip:registry
+```
+
+Expected registry:
+
+```bash
+https://registry.npmjs.org/
+```
+
+If needed, reset it and retry:
+
+```bash
+npm config delete @kmuip:registry
+npm config set registry https://registry.npmjs.org/
+cd packages/pws-types
+bun publish --access public
+```
+
+Fallback for the first release if Bun still fails:
+
+```bash
+cd packages/pws-types
+npm publish --access public
+```
+
 ## Maintain The Skill
 
 Use the repo root as the maintenance workspace. The public skill itself stays self-contained under `skills/pws-api`.

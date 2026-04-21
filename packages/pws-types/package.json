@@ -1,6 +1,6 @@
 {
   "name": "@kmuip/pws-types",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "TypeScript types for the Netwrix Password Secure JavaScript runtime and published API docs.",
   "license": "MIT",
   "homepage": "https://www.kmupartnergroup.ch",
