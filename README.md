@@ -12,13 +12,13 @@ This repository packages two public deliverables for Netwrix Password Secure:
 The skill is organized in a top-level `skills/` directory so it is discoverable by the Skills CLI:
 
 ```bash
-bunx skills add <owner>/<repo> --skill pws-api
+bunx skills add kmuip/pws-api --skill pws-api
 ```
 
 Or from a full repository URL:
 
 ```bash
-bunx skills add https://github.com/<owner>/<repo> --skill pws-api
+bunx skills add https://github.com/kmuip/pws-api --skill pws-api
 ```
 
 ## Package The Types
