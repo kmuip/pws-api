@@ -23,6 +23,11 @@ bunx skills add https://github.com/kmuip/pws-api --skill pws-api
 
 ## Package The Types
 
+Published package:
+
+- `@kmuip/pws-types`
+- `https://www.npmjs.com/package/@kmuip/pws-types`
+
 ```bash
 bun install
 bun run types:check
