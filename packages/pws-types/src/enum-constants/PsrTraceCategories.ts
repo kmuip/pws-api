@@ -32,4 +32,3 @@ export const PsrTraceCategoriesConst = {
 } as const
 
 export type PsrTraceCategories = number // flags – allow composite values
-

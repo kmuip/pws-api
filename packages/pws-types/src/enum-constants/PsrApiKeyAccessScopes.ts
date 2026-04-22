@@ -8,4 +8,5 @@ export const PsrApiKeyAccessScopes = {
   Unrestricted: 2147483647,
 } as const
 
-export type PsrApiKeyAccessScopes = (typeof PsrApiKeyAccessScopes)[keyof typeof PsrApiKeyAccessScopes]
+export type PsrApiKeyAccessScopes =
+  (typeof PsrApiKeyAccessScopes)[keyof typeof PsrApiKeyAccessScopes]

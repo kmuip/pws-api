@@ -11,4 +11,3 @@ export const PsrSyncOperations = {
 } as const
 
 export type PsrSyncOperation = (typeof PsrSyncOperations)[keyof typeof PsrSyncOperations]
-

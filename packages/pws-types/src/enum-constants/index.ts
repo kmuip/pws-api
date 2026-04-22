@@ -1,5 +1,7 @@
 export * from './PsrActiveDirectoryAuthenticationTypes'
+export * from './PsrApiExceptionCode'
 export * from './PsrApplicationType'
+export * from './PasswordGeneratorSeparator'
 export * from './PsrBatchRightItemType'
 export * from './PsrContainerInfoFieldType'
 export * from './PsrContainerItemDescHighlight'

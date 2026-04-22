@@ -16,15 +16,24 @@ export type ActiveDirectoryManager = {
     authTypes: PsrActiveDirectoryAuthenticationType | boolean,
     encryptedUserPassword?: string | null,
   ): Promise<boolean>
-  getActiveDirectoryRootElements(profileId: PsrGuid, cnFilter: string | null): Promise<Record<string, unknown>[]>
-  getActiveDirectoryMembersOfGroup(profileId: PsrGuid, objectGuid: string): Promise<Record<string, unknown>[]>
+  getActiveDirectoryRootElements(
+    profileId: PsrGuid,
+    cnFilter: string | null,
+  ): Promise<Record<string, unknown>[]>
+  getActiveDirectoryMembersOfGroup(
+    profileId: PsrGuid,
+    objectGuid: string,
+  ): Promise<Record<string, unknown>[]>
   getActiveDirectoryElementList(
     profileId: PsrGuid,
     elementName: string,
     search: string,
     fullSearch: boolean,
   ): Promise<Record<string, unknown>[]>
-  getSpecificActiveDirectoryElements(profileId: PsrGuid, objectGuids: string[]): Promise<Record<string, unknown>[]>
+  getSpecificActiveDirectoryElements(
+    profileId: PsrGuid,
+    objectGuids: string[],
+  ): Promise<Record<string, unknown>[]>
   importActiveDirectory(
     profileId: PsrGuid,
     newActiveDirectoryObjects: Record<string, unknown>[],

@@ -5,4 +5,5 @@ export const PsrApiKeyAccessRights = {
   ReadWriteManage: 7,
 } as const
 
-export type PsrApiKeyAccessRights = (typeof PsrApiKeyAccessRights)[keyof typeof PsrApiKeyAccessRights]
+export type PsrApiKeyAccessRights =
+  (typeof PsrApiKeyAccessRights)[keyof typeof PsrApiKeyAccessRights]

@@ -10,4 +10,5 @@ export const PsrContainerInfoFieldTypes = {
   InfoFieldTypeSso: 8,
 } as const
 
-export type PsrContainerInfoFieldType = (typeof PsrContainerInfoFieldTypes)[keyof typeof PsrContainerInfoFieldTypes]
+export type PsrContainerInfoFieldType =
+  (typeof PsrContainerInfoFieldTypes)[keyof typeof PsrContainerInfoFieldTypes]

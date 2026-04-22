@@ -5,4 +5,5 @@ export const PsrCredentialCheckResults = {
   CredentialCheckResultError: 3,
 } as const
 
-export type PsrCredentialCheckResult = (typeof PsrCredentialCheckResults)[keyof typeof PsrCredentialCheckResults]
+export type PsrCredentialCheckResult =
+  (typeof PsrCredentialCheckResults)[keyof typeof PsrCredentialCheckResults]

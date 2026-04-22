@@ -4,4 +4,3 @@ export const PsrServerKeyTypes = {
 } as const
 
 export type PsrServerKeyType = (typeof PsrServerKeyTypes)[keyof typeof PsrServerKeyTypes]
-

@@ -2,6 +2,8 @@
 
 Type declarations for the Netwrix Password Secure JavaScript runtime, with the public HTML docs used as an additional source of truth where they match the runtime surface.
 
+For the Bun and Node runtime package, use `@kmuip/pws-api`.
+
 ## Install
 
 ```bash

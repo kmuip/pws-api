@@ -43,4 +43,3 @@ export const PsrProgressCodes = {
 } as const
 
 export type PsrProgressCode = (typeof PsrProgressCodes)[keyof typeof PsrProgressCodes]
-

@@ -72,7 +72,7 @@ export type {
   PsrListFilterGroupTag,
   PsrListFilterGroupTrigger,
   PsrListFilterGroupTriggerRead,
-  PsrListFilterGroupTriggerType
+  PsrListFilterGroupTriggerType,
 } from './PsrListFilterGroup'
 export { PsrListFilterGroupOrganisationUnit$Type } from './PsrListFilterGroup'
 
@@ -101,7 +101,7 @@ export type {
   PsrListFilterObjectTag,
   PsrListFilterObjectTrigger,
   PsrListFilterObjectTriggerRead,
-  PsrListFilterObjectTriggerType
+  PsrListFilterObjectTriggerType,
 } from './PsrListFilterObject'
 export { PsrListFilterObjectOrganisationUnit$Type } from './PsrListFilterObject'
 
@@ -119,5 +119,5 @@ export {
   PsrListFilterObjectBindingType,
   PsrListFilterObjectLogbookDatePeriod,
   PsrListFilterObjectSealType,
-  PsrListFilterObjectTriggerReadType
+  PsrListFilterObjectTriggerReadType,
 } from './PsrListFilterObject'

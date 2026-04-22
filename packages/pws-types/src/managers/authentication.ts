@@ -1,4 +1,9 @@
-import type { PsrAuthenticationRequirement, PsrAuthenticationRequirementSet, PsrSessionToken, PsrUserKey } from '../runtime'
+import type {
+  PsrAuthenticationRequirement,
+  PsrAuthenticationRequirementSet,
+  PsrSessionToken,
+  PsrUserKey,
+} from '../runtime'
 
 export type AuthenticationManagerV2 = {
   isAuthenticated: boolean
@@ -8,8 +13,16 @@ export type AuthenticationManagerV2 = {
   getUserImage(): string | undefined
   getNextRequirement(): Promise<PsrAuthenticationRequirementSet>
   authenticate(requirement: PsrAuthenticationRequirement): Promise<void> | void
-  forkSession(clientInstanceId: string, clientType: string, clientVersion: string): Promise<PsrSessionToken>
+  forkSession(
+    clientInstanceId: string,
+    clientType: string,
+    clientVersion: string,
+  ): Promise<PsrSessionToken>
   getUserKeys(): PsrUserKey[]
   logout(): Promise<void> | void
-  setSession(authToken: PsrSessionToken, userKeys: PsrUserKey[], apiKey?: string): Promise<void> | void
+  setSession(
+    authToken: PsrSessionToken,
+    userKeys: PsrUserKey[],
+    apiKey?: string,
+  ): Promise<void> | void
 }

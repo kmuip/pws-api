@@ -8,7 +8,11 @@ export type RoleManager = {
   getRole(roleId: PsrGuid): Promise<PsrRole>
   getUserRoles(userId: PsrGuid): Promise<PsrRole[]>
   deleteRole(role: PsrRole): Promise<void> | void
-  addRole(role: PsrRole, publicKey: PsrByteArray, encryptedRolePrivateKey: PsrByteArray): Promise<PsrRole>
+  addRole(
+    role: PsrRole,
+    publicKey: PsrByteArray,
+    encryptedRolePrivateKey: PsrByteArray,
+  ): Promise<PsrRole>
   updateRole(role: PsrRole): Promise<void> | void
   hasRoleMasterKeyMode(id: PsrGuid): Promise<boolean>
   getRoleInvolvedOrganisationUnit(dataId: PsrGuid): Promise<PsrGuid[]>

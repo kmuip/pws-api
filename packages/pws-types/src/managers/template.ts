@@ -1,5 +1,10 @@
 import { PsrGuid } from '../base'
-import type { PsrDataRightTemplate, PsrTemplateGroup, PsrDataTagTemplate, PsrDataRightTemplateTarget } from '../data'
+import type {
+  PsrDataRightTemplate,
+  PsrTemplateGroup,
+  PsrDataTagTemplate,
+  PsrDataRightTemplateTarget,
+} from '../data'
 import { PsrEntityObjectType, PsrRight } from '../enum-constants'
 
 export type TemplateManager = {
@@ -15,8 +20,14 @@ export type TemplateManager = {
     targetId: PsrGuid,
     templateGroupId: PsrGuid,
   ): Promise<Iterable<PsrDataRightTemplate>>
-  getTemplateGroupList(organisationUnitId: PsrGuid | null, ignoreOrganisationUnitPath: boolean): Promise<Iterable<PsrTemplateGroup>>
-  getDefaultOrganisationUnitTemplateGroupId(organisationUnitId: PsrGuid, ignoreParents: boolean): Promise<PsrGuid>
+  getTemplateGroupList(
+    organisationUnitId: PsrGuid | null,
+    ignoreOrganisationUnitPath: boolean,
+  ): Promise<Iterable<PsrTemplateGroup>>
+  getDefaultOrganisationUnitTemplateGroupId(
+    organisationUnitId: PsrGuid,
+    ignoreParents: boolean,
+  ): Promise<PsrGuid>
   getDataTagTemplates(
     dataId: PsrGuid,
     dataType: PsrEntityObjectType | null,

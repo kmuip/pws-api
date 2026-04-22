@@ -19,4 +19,5 @@ export const PsrNotifyTriggerReasons = {
   TriggerAccessExpired: 131072,
 } as const
 
-export type PsrNotifyTriggerReason = (typeof PsrNotifyTriggerReasons)[keyof typeof PsrNotifyTriggerReasons]
+export type PsrNotifyTriggerReason =
+  (typeof PsrNotifyTriggerReasons)[keyof typeof PsrNotifyTriggerReasons]

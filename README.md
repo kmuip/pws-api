@@ -4,6 +4,8 @@ This repository packages two public deliverables for Netwrix Password Secure:
 
 - `skills/pws-api`
   A self-contained agent skill for building Netwrix Password Secure integrations.
+- `packages/pws-api`
+  A Bun and Node runtime package for the Netwrix Password Secure JavaScript API.
 - `packages/pws-types`
   A declaration-only TypeScript package for the Netwrix Password Secure JavaScript runtime surface.
 
@@ -38,6 +40,78 @@ Dry-run the published package:
 
 ```bash
 bun run types:pack
+```
+
+## Package The Runtime
+
+Runtime package:
+
+- `@kmuip/pws-api`
+
+```bash
+bun run api:check
+bun run api:build
+```
+
+Dry-run the published runtime package:
+
+```bash
+bun run api:pack
+```
+
+## Lint And Format
+
+The repo uses Oxc for linting and formatting.
+
+```bash
+bun run lint
+bun run lint:fix
+bun run format
+bun run format:check
+```
+
+## Runtime Reference Inputs
+
+`packages/pws-api` is native at runtime and in the published npm tarball. Legacy wrapper files are optional maintainer reference input only, used temporarily when you want to compare a future official wrapper release for parity.
+
+Reference inputs, when present under `packages/pws-api/legacy`, are used for three generated artifacts:
+
+- `scripts/generate-forward-manifests.mjs`
+  Extracts service and manager method wiring from the legacy JS wrapper into `src/generated/forward-manifests.ts`.
+- `scripts/generate-runtime-enums.mjs`
+  Extracts the legacy enum object into `src/generated/runtime-enums.ts`.
+- `scripts/generate-parity-manifest.mjs`
+  Extracts the public surface into `parity-manifest.json` for compatibility checks.
+
+Policy:
+
+- do not keep legacy files committed by default
+- if parity work is needed, paste legacy files temporarily under `packages/pws-api/legacy`
+- never import legacy files from runtime source code
+- never publish legacy files in the npm package
+- use them only to regenerate manifests, enums, and parity metadata when a newer official wrapper becomes available
+
+To refresh the generated reference artifacts manually:
+
+```bash
+cd packages/pws-api
+node ./scripts/generate-forward-manifests.mjs
+node ./scripts/generate-runtime-enums.mjs
+node ./scripts/generate-parity-manifest.mjs
+```
+
+## Publish The Runtime
+
+Publish `@kmuip/pws-api` from `packages/pws-api`.
+
+Recommended publish flow:
+
+```bash
+bun install
+bun run api:check
+bun run api:build
+cd packages/pws-api
+bun publish --access public
 ```
 
 ## Publish The Types
@@ -114,9 +188,12 @@ bun run skill:build-docs
 bun run skill:validate
 ```
 
-4. Re-check and pack the type package before publishing:
+4. Re-check and pack the runtime and type packages before publishing:
 
 ```bash
+bun run api:check
+bun run api:build
+bun run api:pack
 bun run types:check
 bun run types:build
 bun run types:pack
@@ -128,6 +205,8 @@ If you need the official browser, Node, or .NET wrapper assets while maintaining
 
 - `skills/pws-api`
   Public installable skill.
+- `packages/pws-api`
+  Publishable Bun and Node runtime package. Legacy wrapper files are optional unshipped maintainer reference inputs for parity and regeneration.
 - `packages/pws-types`
   Publishable TypeScript declarations.
 - `docs/passwordsafe`

@@ -6,7 +6,12 @@ import type {
   PsrRealtimeEventType,
   PsrServerMessageType,
 } from './enum-constants'
-import type { PsrContainer, PsrOrganisationUnitGroup, PsrOrganisationUnitUser, PsrRole } from './data'
+import type {
+  PsrContainer,
+  PsrOrganisationUnitGroup,
+  PsrOrganisationUnitUser,
+  PsrRole,
+} from './data'
 
 export type ObservableLike<T> = {
   subscribe(next: (value: T) => unknown): unknown

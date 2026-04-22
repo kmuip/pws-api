@@ -5,5 +5,5 @@ export const PsrRealtimeEventTypes = {
   Unknown: -1,
 } as const
 
-export type PsrRealtimeEventType = (typeof PsrRealtimeEventTypes)[keyof typeof PsrRealtimeEventTypes]
-
+export type PsrRealtimeEventType =
+  (typeof PsrRealtimeEventTypes)[keyof typeof PsrRealtimeEventTypes]

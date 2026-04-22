@@ -4,4 +4,3 @@ export const PsrSessionStates = {
 } as const
 
 export type PsrSessionState = (typeof PsrSessionStates)[keyof typeof PsrSessionStates]
-

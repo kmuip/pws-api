@@ -8,4 +8,5 @@ export const PsrMultiFactorAuthTypes = {
   Radius: 6,
 } as const
 
-export type PsrMultiFactorAuthType = (typeof PsrMultiFactorAuthTypes)[keyof typeof PsrMultiFactorAuthTypes]
+export type PsrMultiFactorAuthType =
+  (typeof PsrMultiFactorAuthTypes)[keyof typeof PsrMultiFactorAuthTypes]

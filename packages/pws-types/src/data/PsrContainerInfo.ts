@@ -1,4 +1,4 @@
-import { PsrContainerInfoField } from "./PsrContainerInfoField"
+import { PsrContainerInfoField } from './PsrContainerInfoField'
 
 export type PsrContainerInfo = {
   BaseContainerName: string // Name of the base container

@@ -4,4 +4,5 @@ export const PsrNotifyTriggerTypes = {
   NotifyTriggerTypeError: 2,
 } as const
 
-export type PsrNotifyTriggerType = (typeof PsrNotifyTriggerTypes)[keyof typeof PsrNotifyTriggerTypes]
+export type PsrNotifyTriggerType =
+  (typeof PsrNotifyTriggerTypes)[keyof typeof PsrNotifyTriggerTypes]

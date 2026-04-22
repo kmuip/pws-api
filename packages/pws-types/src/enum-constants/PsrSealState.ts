@@ -5,4 +5,3 @@ export const PsrSealStates = {
 } as const
 
 export type PsrSealState = (typeof PsrSealStates)[keyof typeof PsrSealStates]
-

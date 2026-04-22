@@ -10,7 +10,9 @@ import type {
 export type OrganisationUnitManager = {
   getOrganisationUnitList(listFilter: PsrListFilter): Promise<Iterable<PsrOrganisationUnit>>
   getOrganisationUnitListFilter(defaultFilter: boolean): Promise<PsrListFilter>
-  getOrganisationUnitStructure(listFilter: PsrListFilter): Promise<Iterable<PsrOrganisationUnitStructure>>
+  getOrganisationUnitStructure(
+    listFilter: PsrListFilter,
+  ): Promise<Iterable<PsrOrganisationUnitStructure>>
   getOrganisationUnitUser(userId: PsrGuid): Promise<PsrOrganisationUnitUser>
   getOrganisationUnitGroup(groupId: PsrGuid): Promise<PsrOrganisationUnitGroup>
   getOrganisationUnitUserList(filter: PsrListFilter): Promise<Iterable<PsrOrganisationUnitUser>>

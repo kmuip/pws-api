@@ -121,7 +121,9 @@ function fetchMissingLinkedPages() {
   }
 
   const unresolved = collectMissingLinkedPages()
-  console.error(`Mirror closure exceeded the pass limit with ${unresolved.length} unresolved pages:`)
+  console.error(
+    `Mirror closure exceeded the pass limit with ${unresolved.length} unresolved pages:`,
+  )
   console.error(unresolved.join('\n'))
   process.exit(1)
 }

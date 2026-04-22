@@ -2,6 +2,21 @@
 
 This file bundles practical Netwrix Password Secure integration patterns in a framework-agnostic form.
 
+## Bun Or Node Runtime Package
+
+For server-side integrations, prefer the published runtime package when it is available.
+
+```ts
+import { PsrApi } from '@kmuip/pws-api'
+
+const api = new PsrApi('https://pass.example.com/api/')
+await api.authenticationManagerV2.loginWithApiKey(process.env.API_KEY!)
+
+const currentUser = await api.organisationUnitManager.getCurrentOrganisationUnit()
+
+await api.authenticationManagerV2.logout()
+```
+
 ## Browser SDK Bootstrap
 
 Use the browser runtime through the injected globals and wrap it in a small factory that your app can call from any framework.
@@ -64,6 +79,17 @@ Use this pattern when:
 - you want one reusable facade for app code
 - you need to run Netwrix Password Secure calls behind a server endpoint instead of exposing direct browser login everywhere
 - you provide the runtime bundle through app configuration instead of relying on `window.PsrApi`
+
+## Browser Write Parity Warning
+
+For browser write operations, do not assume the package runtime and the web app are using the same endpoints.
+
+Current observed examples:
+- password container create in the web app uses `AddContainerV2`
+- user create in the web app uses `AddOrganisationUnitUser2`
+- OU create in the web app uses `AddOrganisationUnitGroup`
+
+If a write flow fails in the runtime package but works in the browser UI, compare against `references/live-ui-payloads.md` before widening types or changing app code.
 
 ## Browser Session Restore
 

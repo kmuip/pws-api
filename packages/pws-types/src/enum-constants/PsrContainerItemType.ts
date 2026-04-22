@@ -18,4 +18,5 @@ export const PsrContainerItemTypes = {
   ContainerItemOtp: 16,
 } as const
 
-export type PsrContainerItemType = (typeof PsrContainerItemTypes)[keyof typeof PsrContainerItemTypes]
+export type PsrContainerItemType =
+  (typeof PsrContainerItemTypes)[keyof typeof PsrContainerItemTypes]

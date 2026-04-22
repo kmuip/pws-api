@@ -18,13 +18,14 @@ Use this skill to build working integrations, not just maintain typings. Start f
 5. If the target is PowerShell, read [`references/powershell.md`](references/powershell.md).
 6. Read [`references/examples.md`](references/examples.md) when you need concrete implementation patterns.
 7. Read [`references/source-of-truth.md`](references/source-of-truth.md) when runtime behavior, docs, and existing types disagree.
+8. Read [`references/live-ui-payloads.md`](references/live-ui-payloads.md) when browser write payloads matter.
 
 ## Rules
 
 - Use public runtime names exactly as they are exposed by the target environment.
 - Keep public spellings unchanged, including `progressToken`, `SearchContainersBrowserSsoList`, and `getTriggerObjektConfigList`.
 - Prefer `window.PsrApi`, `window.PsrApiEnums`, and `window.PsrApiTypes` for browser-facing JavaScript work when the browser runtime is injected by the host environment.
-- Use a Node/CommonJS runtime only when the target environment actually provides one.
+- For Bun or Node work, prefer `@kmuip/pws-api` when it is available in the workspace.
 - Use `@kmuip/pws-types` for TS compile-time shapes when available.
 - For C#/.NET code, use the official SDK names from the docs and assembly surface rather than JS-oriented spellings.
 - Start from the bundled handbook docs when no runtime assets or type package are available locally.
@@ -38,4 +39,5 @@ Use this skill to build working integrations, not just maintain typings. Start f
 - Browser runtime handbook: `references/api-docs/browser-runtime.md`
 - Node runtime handbook: `references/api-docs/node-runtime.md`
 - Implementation examples: `references/examples.md`
+- Live browser payloads: `references/live-ui-payloads.md`
 - TypeScript package: `@kmuip/pws-types`

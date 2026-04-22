@@ -116,7 +116,8 @@ export type PsrListFilterObjectLogbook = PsrListFilterObject & {
 }
 
 // Logbook event filter object
-export const PsrListFilterObjectLogbookEvent$Type = 'PsrDataLayer.FilterObjects.ListFilterObjectLogbookEvent, PsrDataLayer' as const
+export const PsrListFilterObjectLogbookEvent$Type =
+  'PsrDataLayer.FilterObjects.ListFilterObjectLogbookEvent, PsrDataLayer' as const
 
 export type PsrListFilterObjectLogbookEvent = PsrListFilterObject & {
   // Logbook event specific properties
@@ -125,7 +126,8 @@ export type PsrListFilterObjectLogbookEvent = PsrListFilterObject & {
 }
 
 // Organisation unit filter object
-export const PsrListFilterObjectOrganisationUnit$Type = 'PsrDataLayer.FilterObjects.ListFilterObjectOrganisationUnit, PsrDataLayer' as const
+export const PsrListFilterObjectOrganisationUnit$Type =
+  'PsrDataLayer.FilterObjects.ListFilterObjectOrganisationUnit, PsrDataLayer' as const
 
 export type PsrListFilterObjectOrganisationUnit = PsrListFilterObject & {
   $type: typeof PsrListFilterObjectOrganisationUnit$Type

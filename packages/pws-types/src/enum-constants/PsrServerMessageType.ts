@@ -4,5 +4,5 @@ export const PsrServerMessageTypes = {
   Error: 2,
 } as const
 
-export type PsrServerMessageType = (typeof PsrServerMessageTypes)[keyof typeof PsrServerMessageTypes]
-
+export type PsrServerMessageType =
+  (typeof PsrServerMessageTypes)[keyof typeof PsrServerMessageTypes]

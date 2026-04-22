@@ -1,14 +1,29 @@
 import { PsrGuid } from '../base'
-import type { PsrListFilter, PsrNotifyTriggerAlert, PsrNotifyTriggerAlertAdditionalData, PsrNotifyTriggerConfig } from '../data'
-import { PsrEntityObjectType, PsrNotifyTriggerReason, PsrNotifyTriggerType, PsrTriggerConfigResult } from '../enum-constants'
+import type {
+  PsrListFilter,
+  PsrNotifyTriggerAlert,
+  PsrNotifyTriggerAlertAdditionalData,
+  PsrNotifyTriggerConfig,
+} from '../data'
+import {
+  PsrEntityObjectType,
+  PsrNotifyTriggerReason,
+  PsrNotifyTriggerType,
+  PsrTriggerConfigResult,
+} from '../enum-constants'
 
 export type TriggerManager = {
   getTriggerCount(filter: PsrListFilter): Promise<number>
   getTriggerListFilter(defaultFilter: boolean): Promise<PsrListFilter>
   getTriggerAlerts(listFilter: PsrListFilter): Promise<Iterable<PsrNotifyTriggerAlert>>
-  getTriggerAlertAdditionalDatas(alertId: PsrGuid): Promise<Iterable<PsrNotifyTriggerAlertAdditionalData>>
+  getTriggerAlertAdditionalDatas(
+    alertId: PsrGuid,
+  ): Promise<Iterable<PsrNotifyTriggerAlertAdditionalData>>
   setNotifyTriggerAlertsRead(alertIds: PsrGuid[], read: boolean): Promise<void> | void
-  dataHasTriggerConfig(dataId: PsrGuid, dataType: PsrEntityObjectType): Promise<PsrTriggerConfigResult>
+  dataHasTriggerConfig(
+    dataId: PsrGuid,
+    dataType: PsrEntityObjectType,
+  ): Promise<PsrTriggerConfigResult>
   getTriggerConfigList(dataId: PsrGuid): Promise<Iterable<PsrNotifyTriggerConfig>>
   getTriggerObjektConfigList(
     triggerOrganisationUnitId: PsrGuid,
@@ -29,7 +44,10 @@ export type TriggerManager = {
     checkRights: boolean,
     filterObjects: any[],
   ): Promise<void> | void
-  removeNotifyDataTriggerConfig(reason: PsrNotifyTriggerReason, dataId: PsrGuid): Promise<void> | void
+  removeNotifyDataTriggerConfig(
+    reason: PsrNotifyTriggerReason,
+    dataId: PsrGuid,
+  ): Promise<void> | void
   removeNotifyOuTriggerConfig(
     reason: PsrNotifyTriggerReason,
     organisationUnitId: PsrGuid,

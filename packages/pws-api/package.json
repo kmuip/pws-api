@@ -1,0 +1,62 @@
+{
+  "name": "@kmuip/pws-api",
+  "version": "0.1.0",
+  "description": "Bun and Node runtime package for the Netwrix Password Secure JavaScript API.",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://www.kmupartnergroup.ch",
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.0.0"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "parity-manifest.json"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./data": {
+      "types": "./dist/data.d.ts",
+      "import": "./dist/data.js"
+    },
+    "./enum-constants": {
+      "types": "./dist/enum-constants.d.ts",
+      "import": "./dist/enum-constants.js"
+    },
+    "./enums": {
+      "types": "./dist/enums.d.ts",
+      "import": "./dist/enums.js"
+    },
+    "./managers": {
+      "types": "./dist/managers.d.ts",
+      "import": "./dist/managers.js"
+    },
+    "./runtime": {
+      "types": "./dist/runtime.d.ts",
+      "import": "./dist/runtime.js"
+    }
+  },
+  "scripts": {
+    "build": "rm -rf dist && node ./scripts/generate-forward-manifests.mjs && node ./scripts/generate-runtime-enums.mjs && tsc -p tsconfig.json && node ./scripts/generate-parity-manifest.mjs",
+    "check": "node ./scripts/generate-forward-manifests.mjs && node ./scripts/generate-runtime-enums.mjs && tsc -p tsconfig.json --noEmit",
+    "live:auth-flow-smoke": "bun run build && node ./scripts/live-auth-flow-smoke.mjs",
+    "live:password-auth-smoke": "bun run build && node ./scripts/live-password-auth-smoke.mjs",
+    "live:smoke": "bun run build && node ./scripts/live-smoke.mjs",
+    "prepack": "bun run build"
+  },
+  "dependencies": {
+    "@kmuip/pws-types": "^0.1.1",
+    "node-forge": "1.3.2",
+    "otpauth": "^8.0.3",
+    "rxjs": "^7.8.2",
+    "ws": "^8.18.0"
+  }
+}

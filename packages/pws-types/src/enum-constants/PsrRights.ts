@@ -11,4 +11,3 @@ export const PsrRights = {
 } as const
 
 export type PsrRight = number // flags – allow composite values
-

@@ -1,5 +1,9 @@
 import type { PsrGuid } from '../base'
-import type { PsrNotifyTriggerReason, PsrNotifyTriggerType, PsrSyncOperation } from '../enum-constants'
+import type {
+  PsrNotifyTriggerReason,
+  PsrNotifyTriggerType,
+  PsrSyncOperation,
+} from '../enum-constants'
 import { PsrData } from './PsrData'
 import { PsrNotifyTrigger } from './PsrNotifyTrigger'
 import { PsrOrganisationUnit } from './PsrOrganisationUnit'

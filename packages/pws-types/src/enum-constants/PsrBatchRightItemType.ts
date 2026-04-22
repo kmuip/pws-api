@@ -10,4 +10,5 @@ export const PsrBatchRightItemTypes = {
   UpdateLegitimateDataRight: 8,
 } as const
 
-export type PsrBatchRightItemType = (typeof PsrBatchRightItemTypes)[keyof typeof PsrBatchRightItemTypes]
+export type PsrBatchRightItemType =
+  (typeof PsrBatchRightItemTypes)[keyof typeof PsrBatchRightItemTypes]

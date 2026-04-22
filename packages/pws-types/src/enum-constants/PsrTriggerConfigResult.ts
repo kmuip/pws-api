@@ -4,4 +4,5 @@ export const PsrTriggerConfigResults = {
   Any: 2,
 } as const
 
-export type PsrTriggerConfigResult = (typeof PsrTriggerConfigResults)[keyof typeof PsrTriggerConfigResults]
+export type PsrTriggerConfigResult =
+  (typeof PsrTriggerConfigResults)[keyof typeof PsrTriggerConfigResults]

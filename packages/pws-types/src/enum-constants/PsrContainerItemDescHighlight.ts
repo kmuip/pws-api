@@ -5,4 +5,5 @@ export const PsrContainerItemDescHighlights = {
   ContainerItemDescHighlightError: 3,
 } as const
 
-export type PsrContainerItemDescHighlight = (typeof PsrContainerItemDescHighlights)[keyof typeof PsrContainerItemDescHighlights]
+export type PsrContainerItemDescHighlight =
+  (typeof PsrContainerItemDescHighlights)[keyof typeof PsrContainerItemDescHighlights]

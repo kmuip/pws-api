@@ -10,6 +10,7 @@
 6. Use `@kmuip/pws-types` for exact compile-time shapes when TypeScript is in scope.
 7. Confirm manager and method names from the runtime actually used by the target environment.
 8. Validate any live probing with read-only calls only unless the user explicitly asks for write operations.
+9. For browser write operations, check `references/live-ui-payloads.md` before assuming the current runtime package is browser-parity complete.
 
 ## Runtime Naming Rules
 

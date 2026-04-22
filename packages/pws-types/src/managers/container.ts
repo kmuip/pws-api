@@ -11,13 +11,19 @@ import type {
 import { PsrContainerItemType, PsrContainerType } from '../enum-constants'
 
 export type ContainerManager = {
-  getContainerListFilter(type: PsrContainerType, defaultFilter: boolean): Promise<PsrContainerListFilter>
+  getContainerListFilter(
+    type: PsrContainerType,
+    defaultFilter: boolean,
+  ): Promise<PsrContainerListFilter>
   getContainerList(
     containerType: PsrContainerType,
     containerListFilter: PsrContainerListFilter,
     behaviours?: PsrBehaviours,
   ): Promise<PsrContainer[]>
-  getContainerCount(containerType: PsrContainerType, containerListFilter: PsrContainerListFilter): Promise<number>
+  getContainerCount(
+    containerType: PsrContainerType,
+    containerListFilter: PsrContainerListFilter,
+  ): Promise<number>
   getContainer(containerId: PsrGuid): Promise<PsrContainer>
   updateContainer(container: PsrContainer, behaviours: PsrBehaviours): Promise<PsrContainer>
   addContainer(
@@ -30,11 +36,17 @@ export type ContainerManager = {
   deleteContainer(container: PsrContainer): Promise<void> | void
   getContainerItemWithSecretValue(itemId: PsrGuid, reason: string): Promise<PsrContainerItem>
   getContainerItem(itemId: PsrGuid): Promise<PsrContainerItem>
-  createContainerFromBaseContainer(baseContainer: PsrContainer, newContainerType: PsrContainerType): PsrContainer
+  createContainerFromBaseContainer(
+    baseContainer: PsrContainer,
+    newContainerType: PsrContainerType,
+  ): PsrContainer
   decryptContainerItem(item: PsrContainerItem, reason: string): Promise<string>
   encryptContainerItem(item: PsrContainerItem, plaintext: string): PsrByteArray
   getContainerInvolvedOrganisationUnit(dataId: PsrGuid): Promise<PsrGuid[]>
-  getContainerHistoryList(containerType: PsrContainerType, id: PsrGuid): Promise<PsrContainerHistory[]>
+  getContainerHistoryList(
+    containerType: PsrContainerType,
+    id: PsrGuid,
+  ): Promise<PsrContainerHistory[]>
   getContainerBrowserSsoList(getContainersWithoutUrl: boolean): Promise<PsrContainer[]>
   SearchContainersBrowserSsoList(searchValue: string): Promise<PsrContainer[]>
   cloneContainer(baseContainerId: PsrGuid): Promise<PsrContainer>
