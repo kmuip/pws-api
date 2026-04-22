@@ -1,0 +1,14 @@
+import type { MtoHashAlgorithm, PsrEncryptionKeyPair, PsrPasswordHashResult } from '@kmuip/pws-types';
+import { generateAesKey } from './crypto/aes.js';
+import { generateEccKey } from './crypto/ecc.js';
+import { type CryptoValue, createClientInformation, getClientVersion, usesSymmetricKey } from './crypto/shared.js';
+export declare function calculateMtoHash(hashAlgorithm: MtoHashAlgorithm | number, password: string, saltBase64?: string | null): Promise<PsrPasswordHashResult>;
+export { createClientInformation, generateAesKey, generateEccKey, getClientVersion, usesSymmetricKey, };
+export declare function generateRsaPkcs1Key(): Promise<PsrEncryptionKeyPair>;
+export declare function encryptWithDetectedPublicKey(publicKey: CryptoValue, value: CryptoValue): Promise<string>;
+export declare function signWithDetectedPrivateKey(privateKey: CryptoValue, value: CryptoValue): Promise<string>;
+export declare function mtoEncrypt(chain: number, key: CryptoValue, value: CryptoValue): Promise<string>;
+export declare function mtoDecrypt(key: CryptoValue, encryptedValue: CryptoValue): Promise<string>;
+export declare function normalizeBinaryValue(value: CryptoValue | null | undefined): string;
+export declare function encodeUtf8Binary(value: string): string;
+export declare function decodeUtf8Binary(value: CryptoValue): string;

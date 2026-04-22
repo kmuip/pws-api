@@ -1,11 +1,13 @@
 # Netwrix Password Secure Agent Toolkit
 
-This repository packages two public deliverables for Netwrix Password Secure:
+This repository packages public skill and package deliverables for Netwrix Password Secure:
 
 - `skills/pws-api`
   A self-contained agent skill for building Netwrix Password Secure integrations.
+- `packages/pws-sdk`
+  A high-level Bun and Node SDK for common Netwrix Password Secure app and admin flows.
 - `packages/pws-api`
-  A Bun and Node runtime package for the Netwrix Password Secure JavaScript API.
+  A Bun and Node runtime package for the Netwrix Password Secure JavaScript API parity surface.
 - `packages/pws-types`
   A declaration-only TypeScript package for the Netwrix Password Secure JavaScript runtime surface.
 
@@ -22,6 +24,33 @@ Or from a full repository URL:
 ```bash
 bunx skills add https://github.com/kmuip/pws-api --skill pws-api
 ```
+
+## Package The SDK
+
+Published package:
+
+- `@kmuip/pws-sdk`
+
+Use this package first for common application work such as password CRUD, tag management, organisation unit work, user creation, and logbook reads.
+
+```bash
+bun install
+bun run sdk:check
+bun run sdk:build
+bun run sdk:live-smoke
+bun run sdk:live-filter-smoke
+bun run sdk:live-atomic-smoke
+```
+
+Dry-run the published package:
+
+```bash
+bun run sdk:pack
+```
+
+Write-safe SDK validation workflow:
+
+- [packages/pws-sdk/TESTING.md](/home/luke/projects/kmuip/pws-api-wrapper/packages/pws-sdk/TESTING.md)
 
 ## Package The Types
 
@@ -47,6 +76,8 @@ bun run types:pack
 Runtime package:
 
 - `@kmuip/pws-api`
+
+Use this package when you need the low-level parity-oriented `PsrApi` surface directly or when `@kmuip/pws-sdk` does not yet cover the required operation.
 
 ```bash
 bun run api:check
@@ -111,6 +142,20 @@ bun install
 bun run api:check
 bun run api:build
 cd packages/pws-api
+bun publish --access public
+```
+
+## Publish The SDK
+
+Publish `@kmuip/pws-sdk` from `packages/pws-sdk`.
+
+Recommended publish flow:
+
+```bash
+bun install
+bun run sdk:check
+bun run sdk:build
+cd packages/pws-sdk
 bun publish --access public
 ```
 
@@ -191,6 +236,14 @@ bun run skill:validate
 4. Re-check and pack the runtime and type packages before publishing:
 
 ```bash
+bun run sdk:check
+bun run sdk:build
+bun run sdk:live-smoke
+bun run sdk:live-password-auth-smoke
+bun run sdk:live-otp-auth-smoke
+bun run sdk:live-filter-smoke
+bun run sdk:live-atomic-smoke
+bun run sdk:pack
 bun run api:check
 bun run api:build
 bun run api:pack
@@ -205,6 +258,8 @@ If you need the official browser, Node, or .NET wrapper assets while maintaining
 
 - `skills/pws-api`
   Public installable skill.
+- `packages/pws-sdk`
+  Publishable high-level Bun and Node SDK for common integrations.
 - `packages/pws-api`
   Publishable Bun and Node runtime package. Legacy wrapper files are optional unshipped maintainer reference inputs for parity and regeneration.
 - `packages/pws-types`

@@ -118,7 +118,7 @@ export async function signWithDetectedPrivateKey(privateKey: CryptoValue, value:
 }
 
 export async function mtoEncrypt(chain: number, key: CryptoValue, value: CryptoValue) {
-  if (!value) {
+  if (value == null) {
     return ''
   }
 

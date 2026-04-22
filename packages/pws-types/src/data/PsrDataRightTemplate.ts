@@ -1,10 +1,11 @@
+import type { PsrRight } from '../enum-constants/PsrRights'
 import type { PsrGuid } from '../base'
 
 export type PsrDataRightTemplate = {
   // Core data properties
   Data?: unknown // Organisation unit that the template applies on
   DataId?: PsrGuid // ID of the organisation unit that the template applies on
-  DataType?: string // Which object type the template applies to
+  DataType?: number // Which object type the template applies to
 
   // Legitimate properties
   Legitimate?: unknown // Object that should be legitimated by this template
@@ -12,7 +13,7 @@ export type PsrDataRightTemplate = {
 
   // Rights and permissions
   OwnerRight?: boolean // Used for ContainerItemPassword, if secured data is true, the legitimate cannot reveal the password, but only use it for automatic entry
-  Rights?: string[] // Permissions that should be applied by the template
+  Rights?: PsrRight // Permissions that should be applied by the template
 
   // Target properties
   Target?: unknown // Object that the template should apply to

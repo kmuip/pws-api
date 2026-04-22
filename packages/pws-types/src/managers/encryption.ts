@@ -14,6 +14,10 @@ export type EncryptionManager = {
     publicKey: PsrByteArrayLike,
     value: PsrByteArrayLike,
   ): Promise<string | Uint8Array> | string | Uint8Array
+  encryptRightKeyWithPublicKey(
+    publicKey: PsrByteArrayLike,
+    value: PsrByteArrayLike,
+  ): Promise<string | Uint8Array> | string | Uint8Array
   encryptTextWithPublicKey(
     publicKey: PsrByteArrayLike,
     value: string,

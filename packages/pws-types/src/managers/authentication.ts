@@ -1,4 +1,5 @@
 import type {
+  PsrForkedSessionToken,
   PsrAuthenticationRequirement,
   PsrAuthenticationRequirementSet,
   PsrSessionToken,
@@ -17,11 +18,11 @@ export type AuthenticationManagerV2 = {
     clientInstanceId: string,
     clientType: string,
     clientVersion: string,
-  ): Promise<PsrSessionToken>
+  ): Promise<PsrSessionToken | PsrForkedSessionToken>
   getUserKeys(): PsrUserKey[]
   logout(): Promise<void> | void
   setSession(
-    authToken: PsrSessionToken,
+    authToken: PsrSessionToken | PsrForkedSessionToken,
     userKeys: PsrUserKey[],
     apiKey?: string,
   ): Promise<void> | void

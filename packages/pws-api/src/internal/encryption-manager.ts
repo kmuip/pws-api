@@ -18,6 +18,8 @@ import {
   signWithDetectedPrivateKey,
   encryptWithDetectedPublicKey,
 } from './mto-crypto.js'
+import { MTO_ENCRYPTION_CHAIN } from './crypto/shared.js'
+import { getPublicKeyType } from './crypto/rsa.js'
 
 type EncryptionEngine = {
   decrypt(
@@ -113,6 +115,15 @@ export class RuntimeEncryptionManager implements EncryptionManager {
 
   encryptWithPublicKey(publicKey: PsrByteArrayLike, value: PsrByteArrayLike) {
     return this.currentEncryption.encryptWithPublicKey(publicKey, value)
+  }
+
+  encryptRightKeyWithPublicKey(publicKey: PsrByteArrayLike, value: PsrByteArrayLike) {
+    const chain =
+      getPublicKeyType(publicKey) === 'RSA'
+        ? MTO_ENCRYPTION_CHAIN.Rsa_Pbkdf2Sha1_AesCbc
+        : MTO_ENCRYPTION_CHAIN.Ecdh_HkdfSha256_AesGcm
+
+    return mtoEncrypt(chain, publicKey, value)
   }
 
   encryptTextWithPublicKey(publicKey: PsrByteArrayLike, value: string) {

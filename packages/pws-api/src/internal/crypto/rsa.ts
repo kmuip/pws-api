@@ -3,7 +3,7 @@ import {
   RSA_SEPARATOR,
   type CryptoValue,
   toBinaryString,
-  toUint8Array,
+  toSerializedKeyBytes,
   utf8ToBinary,
 } from './shared.js'
 
@@ -141,7 +141,7 @@ export class NativeRsa {
 }
 
 export function getPublicKeyType(value: CryptoValue) {
-  const bytes = toUint8Array(value)
+  const bytes = toSerializedKeyBytes(value)
   if (bytes[0] === 80 && bytes[1] === 70) {
     return 'RSA'
   }
@@ -154,7 +154,7 @@ export function getPublicKeyType(value: CryptoValue) {
 }
 
 export function getPrivateKeyType(value: CryptoValue) {
-  const bytes = toUint8Array(value)
+  const bytes = toSerializedKeyBytes(value)
   if (bytes[0] === 80 && bytes[1] === 70) {
     return 'RSA'
   }

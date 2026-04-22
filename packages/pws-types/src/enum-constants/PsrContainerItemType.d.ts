@@ -1,0 +1,20 @@
+export declare const PsrContainerItemTypes: {
+    readonly ContainerItemText: 0;
+    readonly ContainerItemPassword: 1;
+    readonly ContainerItemDate: 2;
+    readonly ContainerItemCheck: 3;
+    readonly ContainerItemUrl: 4;
+    readonly ContainerItemEmail: 5;
+    readonly ContainerItemPhone: 6;
+    readonly ContainerItemList: 7;
+    readonly ContainerItemHeader: 8;
+    readonly ContainerItemMemo: 9;
+    readonly ContainerItemPasswordMemo: 10;
+    readonly ContainerItemInt: 11;
+    readonly ContainerItemDecimal: 12;
+    readonly ContainerItemUserName: 13;
+    readonly ContainerItemIp: 14;
+    readonly ContainerItemHostName: 15;
+    readonly ContainerItemOtp: 16;
+};
+export type PsrContainerItemType = (typeof PsrContainerItemTypes)[keyof typeof PsrContainerItemTypes];

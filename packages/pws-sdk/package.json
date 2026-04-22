@@ -1,0 +1,47 @@
+{
+  "name": "@kmuip/pws-sdk",
+  "version": "0.1.0",
+  "description": "High-level Bun and Node SDK for common Netwrix Password Secure app and admin flows.",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://www.kmupartnergroup.ch",
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.0.0"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "TESTING.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "live:smoke": "bun run build && node ./scripts/live-smoke.mjs",
+    "live:oidc-preflight": "bun run build && node ./scripts/live-oidc-preflight.mjs",
+    "live:oidc-same-session": "bun run build && node ./scripts/live-oidc-same-session.mjs",
+    "live:session-smoke": "bun run build && node ./scripts/live-session-smoke.mjs",
+    "live:password-auth-smoke": "bun run build && node ./scripts/live-password-auth-smoke.mjs",
+    "live:otp-auth-smoke": "bun run build && node ./scripts/live-otp-auth-smoke.mjs",
+    "live:filter-smoke": "bun run build && node ./scripts/live-filter-smoke.mjs",
+    "live:atomic-smoke": "bun run build && node ./scripts/live-atomic-smoke.mjs",
+    "prepack": "bun run build"
+  },
+  "dependencies": {
+    "@kmuip/pws-api": "^0.1.0",
+    "@kmuip/pws-types": "^0.1.1"
+  },
+  "devDependencies": {
+    "otpauth": "^9.5.0"
+  }
+}

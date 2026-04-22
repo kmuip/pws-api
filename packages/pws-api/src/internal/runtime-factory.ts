@@ -224,9 +224,13 @@ export function createRuntimeBundle(
         Array.from(await rightManager.getLegitimateDataRights(dataId, includeChildren, inherit)),
     },
     {
+      encryptDataRightKey: userKeyManager.encryptDataRightKey.bind(userKeyManager),
       decryptContainerItem: userKeyManager.decryptContainerItem.bind(userKeyManager),
       encryptContainerItem: userKeyManager.encryptContainerItem.bind(userKeyManager),
       encryptRightKeysAndReturn: userKeyManager.encryptRightKeysAndReturn.bind(userKeyManager),
+    },
+    {
+      getCurrentUserPublicKey: () => api.currentUser?.PublicKey ?? null,
     },
     { saveRights: genericRightManager.saveRights.bind(genericRightManager) },
     oneTimePasswordManager,

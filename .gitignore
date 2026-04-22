@@ -17,3 +17,4 @@ help.passwordsafe.de/
 # Package build output
 packages/pws-types/dist/
 packages/pws-api/dist/
+packages/pws-sdk/dist/

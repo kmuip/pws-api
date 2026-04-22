@@ -1,0 +1,31 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PsrEntityObjectTypes = void 0;
+exports.PsrEntityObjectTypes = {
+    EntityObjectTypeUnknown: 0,
+    EntityObjectTypePassword: 1,
+    EntityObjectTypeFormular: 2,
+    EntityObjectTypeDocument: 3,
+    EntityObjectTypeRole: 4,
+    EntityObjectTypeUser: 5,
+    EntityObjectTypeGroup: 6,
+    EntityObjectTypeSeal: 7,
+    EntityObjectTypeTriggerAlert: 8,
+    EntityObjectTypeLogbookEntry: 9,
+    EntityObjectTypeContainerItem: 10,
+    EntityObjectTypeActiveDirectoryProfile: 11,
+    EntityObjectTypeSystemTask: 12,
+    EntityObjectTypeApplication: 13,
+    EntityObjectTypeMultiFactorAuthenticator: 14,
+    EntityObjectTypeTag: 15,
+    EntityObjectTypePolicy: 16,
+    EntityObjectTypeReportQueryConfig: 17,
+    EntityObjectTypeServerKey: 18,
+    EntityObjectTypePasswordReset: 19,
+    EntityObjectTypeTemplateGroup: 20,
+    EntityObjectTypeSealTemplate: 21,
+    EntityObjectTypeDiscoveredContainer: 22,
+    EntityObjectTypeDiscoveredContainerItem: 23,
+    EntityObjectTypeDataImage: 24,
+    EntityObjectTypeApiKey: 26,
+};

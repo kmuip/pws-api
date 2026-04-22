@@ -43,8 +43,8 @@ export type OrganisationUnitManager = {
     publicKey: PsrByteArray,
     encryptedUserPrivateKey: PsrByteArray,
     encryptedCurrentUserPrivateKey: PsrByteArray,
-    parentOrganisationUnitId: PsrGuid | null,
     clientHashAlgorithm?: string | null,
+    parentOrganisationUnitId?: PsrGuid | null,
   ): Promise<PsrOrganisationUnitUser>
   updateOrganisationUnitUser(organisationUnitUser: PsrOrganisationUnitUser): Promise<void> | void
   deleteOrganisationUnitUser(organisationUnitUser: PsrOrganisationUnitUser): Promise<void> | void

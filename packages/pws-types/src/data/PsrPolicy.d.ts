@@ -1,0 +1,25 @@
+import type { PsrGuid } from '../base';
+import type { PsrSyncOperation } from '../enum-constants';
+export type PsrPolicy = {
+    __type?: string;
+    Description?: string;
+    Id: PsrGuid;
+    LowerCase?: boolean;
+    MinimumPasswordQuality?: number;
+    Name?: string;
+    NotAllowedChars?: string;
+    NotAllowedPasswordCount?: number;
+    NotAllowedPasswords?: string[];
+    NotAllowedPasswordUsername?: boolean;
+    Numbers?: boolean;
+    PasswordLenght?: number;
+    RequiredCategories?: number;
+    SimilarChars?: boolean;
+    Space?: boolean;
+    SpecialCharList?: string;
+    SpecialChars?: boolean;
+    SyncOperation?: PsrSyncOperation;
+    TimeStampUtc?: Date;
+    TransactionId?: PsrGuid;
+    UpperCase?: boolean;
+};

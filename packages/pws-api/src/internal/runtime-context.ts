@@ -1,4 +1,4 @@
-import type { PsrSessionToken } from '@kmuip/pws-types'
+import type { PsrForkedSessionToken, PsrSessionToken } from '@kmuip/pws-types'
 import { PsrHttpClient, type RuntimeSession } from './http.js'
 import { PsrRealtimeConnection } from './realtime.js'
 import { normalizeEndpoint } from './utils.js'
@@ -27,6 +27,8 @@ export function createRuntimeContext(apiUrl: string): RuntimeContext {
   }
 }
 
-export function cloneSessionToken(token: PsrSessionToken | null | undefined) {
+export function cloneSessionToken(
+  token: PsrSessionToken | PsrForkedSessionToken | null | undefined,
+) {
   return token ? { ...token } : null
 }

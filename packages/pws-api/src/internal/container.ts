@@ -41,6 +41,11 @@ type ServiceClientLike = {
     container: PsrContainer,
     parentOrganisationUnitId: PsrGuid | null,
   ): Promise<PsrContainer>
+  addContainerV2(
+    container: unknown,
+    parentOrganisationUnitId?: PsrGuid | null,
+    rightInheritanceOptions?: unknown,
+  ): Promise<PsrContainer>
   initContainerItem(containerItemType: number): Promise<PsrContainerItem>
   deleteContainer(container: PsrContainer): Promise<void>
   getContainerItemWithSecretValue(itemId: PsrGuid, reason: string): Promise<PsrContainerItem>
@@ -67,6 +72,25 @@ type EncryptedItemKey = {
   privateKey: string | Uint8Array | null
 }
 
+type RightInheritanceOptions = {
+  RightInheritanceMode: number
+  TemplateGroupId: PsrGuid | null
+  RightTemplates: PsrDataRightTemplate[]
+  Keys: Array<{
+    EncryptedPrivateKey: string
+    Identifier: string
+  }>
+  IncludeCurrentUser: boolean
+}
+
+type AddContainerV2ItemPayload = {
+  [key: string]: unknown
+}
+
+type AddContainerV2ContainerPayload = {
+  [key: string]: unknown
+}
+
 type InheritanceApplier = {
   run: (
     data: PsrContainer,
@@ -84,6 +108,10 @@ type RightBatchUpdater = {
 }
 
 type ItemKeyCryptography = {
+  encryptDataRightKey(
+    publicKey: string,
+    key: string | Uint8Array | null,
+  ): Promise<string | Uint8Array | null> | string | Uint8Array | null
   decryptContainerItem(item: PsrContainerItem, reason: string): Promise<string>
   encryptContainerItem(
     item: PsrContainerItem,
@@ -105,6 +133,10 @@ type RightSaver = {
   ): Promise<unknown>
 }
 
+type CurrentUserAccess = {
+  getCurrentUserPublicKey(): string | null
+}
+
 export class RuntimeContainerManager implements ContainerManager {
   constructor(
     private readonly serviceClient: ServiceClientLike,
@@ -118,6 +150,7 @@ export class RuntimeContainerManager implements ContainerManager {
       ): Promise<unknown[]>
     },
     private readonly userKeyManager: ItemKeyCryptography,
+    private readonly currentUserAccess: CurrentUserAccess,
     private readonly genericRightManager: RightSaver,
     private readonly oneTimePasswordManager: OneTimePasswordManager,
     private readonly typeConstructors: TypedConstructors,
@@ -154,7 +187,7 @@ export class RuntimeContainerManager implements ContainerManager {
 
     let encryptedItemKeys: EncryptedItemKey[] = []
     if (isPasswordContainer(container)) {
-      encryptedItemKeys = await this.prepareEncryptedItems(asArray(container.Items))
+      encryptedItemKeys = await this.prepareEncryptedItemsForCreate(asArray(container.Items))
     }
 
     const updatedContainer = await this.serviceClient.updateContainer(container, behaviours)
@@ -214,11 +247,8 @@ export class RuntimeContainerManager implements ContainerManager {
       throw new Error('Containers of type password must have a parent organisation unit.')
     }
 
-    container.DataTags = []
-    for (const item of asArray(container.Items).filter(
-      (candidate) => isEncryptedContainerItem(candidate) && !candidate.PlainTextValue,
-    )) {
-      item.PlainTextValue = ''
+    if (!isPasswordContainer(container)) {
+      container.DataTags = []
     }
 
     let encryptedItemKeys: EncryptedItemKey[] = []
@@ -226,47 +256,17 @@ export class RuntimeContainerManager implements ContainerManager {
       encryptedItemKeys = await this.prepareEncryptedItems(asArray(container.Items))
     }
 
-    const createdContainer = await this.serviceClient.addContainer(
-      container,
-      parentOrganisationUnitId,
-    )
-    if (isPasswordContainer(container)) {
-      const keyUpdates = await this.createRightKeyBatchUpdates(
-        asArray(createdContainer.Items),
-        encryptedItemKeys,
-      )
-      await this.rightManager.batchUpdateRights(keyUpdates)
-      await this.inheritanceManager.run(
-        createdContainer as never,
-        rightTemplates as never,
-        async (dataId) => {
-          const item = asArray(createdContainer.Items).find((candidate) => candidate.Id === dataId)
-          if (!item) {
-            return []
-          }
-
-          const keyEntry = encryptedItemKeys.find((candidate) => candidate.itemName === item.Name)
-          if (!keyEntry?.privateKey) {
-            return []
-          }
-
-          const rightKeys = await this.userKeyManager.encryptRightKeysAndReturn(
-            item,
-            keyEntry.privateKey,
-          )
-          return rightKeys.map((entry) => ({
-            ItemType: runtimeEnums.PsrBatchRightItemType.UpdateLegitimateDataRightKey,
-            DataId: entry.dataId,
-            LegitimateId: entry.legitimateId,
-            RightKey: entry.key,
-          }))
-        },
-        parentOrganisationUnitId,
-        templateGroupId,
-        runtimeEnums.PsrEntityObjectType.EntityObjectTypePassword,
-        createdContainer.BaseContainerId,
-      )
-    }
+    const createdContainer = isPasswordContainer(container)
+      ? await this.serviceClient.addContainerV2(
+          this.serializeContainerForAddContainerV2(container),
+          parentOrganisationUnitId,
+          await this.createRightInheritanceOptions(
+            encryptedItemKeys,
+            rightTemplates,
+            templateGroupId,
+          ),
+        )
+      : await this.serviceClient.addContainer(container, parentOrganisationUnitId)
 
     return createdContainer
   }
@@ -405,6 +405,32 @@ export class RuntimeContainerManager implements ContainerManager {
     return keyEntries
   }
 
+  private async prepareEncryptedItemsForCreate(items: PsrContainerItem[]) {
+    items.forEach((item, index) => {
+      item.Position = index
+    })
+
+    const encryptedItems = items.filter((item) => isEncryptedContainerItem(item))
+    const keyEntries: EncryptedItemKey[] = encryptedItems.map((item) => ({
+      itemName: item.Name ?? '',
+      privateKey: null,
+    }))
+
+    for (const item of encryptedItems) {
+      const plaintext = item.PlainTextValue ?? ''
+      item.PlainTextValue = plaintext
+      this.validateOtpItem(item)
+      item.Quality = this.passwordManager.getPasswordStrength(plaintext)
+      const privateKey = await this.userKeyManager.encryptContainerItem(item, plaintext)
+      const entry = keyEntries.find((candidate) => candidate.itemName === item.Name)
+      if (entry) {
+        entry.privateKey = privateKey
+      }
+    }
+
+    return keyEntries
+  }
+
   private validateOtpItem(item: PsrContainerItem) {
     if (
       item.ContainerItemType !== runtimeEnums.PsrContainerItemType.ContainerItemOtp ||
@@ -451,5 +477,145 @@ export class RuntimeContainerManager implements ContainerManager {
 
     await Promise.all(updates)
     return batchItems
+  }
+
+  private async createRightInheritanceOptions(
+    encryptedItemKeys: EncryptedItemKey[],
+    rightTemplates: PsrDataRightTemplate[] | null,
+    templateGroupId: PsrGuid | null,
+  ): Promise<RightInheritanceOptions> {
+    const currentUserPublicKey = this.currentUserAccess.getCurrentUserPublicKey()
+    if (!currentUserPublicKey) {
+      throw new Error('Current user public key is not available.')
+    }
+
+    const keys = await Promise.all(
+      encryptedItemKeys
+        .filter(
+          (entry): entry is EncryptedItemKey & { privateKey: string | Uint8Array } =>
+            entry.privateKey != null,
+        )
+        .map(async (entry) => ({
+          EncryptedPrivateKey: this.toBase64(
+            (await this.userKeyManager.encryptDataRightKey(
+              currentUserPublicKey,
+              entry.privateKey,
+            )) ?? '',
+          ),
+          Identifier: entry.itemName,
+        })),
+    )
+
+    return {
+      RightInheritanceMode: 1,
+      TemplateGroupId: templateGroupId ?? null,
+      RightTemplates: asArray(rightTemplates),
+      Keys: keys,
+      IncludeCurrentUser: true,
+    }
+  }
+
+  private toBase64(value: string | Uint8Array) {
+    return typeof value === 'string'
+      ? Buffer.from(value, 'binary').toString('base64')
+      : Buffer.from(value).toString('base64')
+  }
+
+  private serializeContainerForAddContainerV2(
+    container: PsrContainer,
+  ): AddContainerV2ContainerPayload {
+    const baseContainerName =
+      (container.BaseContainer as { Name?: string | null } | null | undefined)?.Name ??
+      (container.Info as { BaseContainerName?: string | null } | null | undefined)
+        ?.BaseContainerName ??
+      null
+
+    return {
+      $type:
+        (container as Record<string, unknown>).$type ??
+        'PsrDataLayer.Structure.MtoContainer, PsrDataLayer',
+      IsDocumentLink: Boolean((container as Record<string, unknown>).IsDocumentLink),
+      Id: container.Id,
+      TimeStampUtc: container.TimeStampUtc,
+      ValidTimeStampUtc: container.ValidTimeStampUtc ?? null,
+      ChangedOrganisationUnitId: container.ChangedOrganisationUnitId ?? null,
+      PublicKey: container.PublicKey ?? null,
+      DataStates: container.DataStates,
+      DataTags: asArray(
+        ((container as Record<string, unknown>).DataTags as
+          | Iterable<unknown>
+          | unknown[]
+          | null
+          | undefined) ?? [],
+      ),
+      IsFavorite: Boolean((container as Record<string, unknown>).IsFavorite),
+      HasTrigger: Boolean((container as Record<string, unknown>).HasTrigger),
+      HasTriggerAlert: Boolean((container as Record<string, unknown>).HasTriggerAlert),
+      Name: container.Name ?? null,
+      Description: container.Description ?? null,
+      BaseContainerId: container.BaseContainerId ?? null,
+      EncryptionKeyType: (container as Record<string, unknown>).EncryptionKeyType ?? null,
+      Items: asArray(container.Items).map((item) =>
+        this.serializeContainerItemForAddContainerV2(item),
+      ),
+      DocumentDataId: (container as Record<string, unknown>).DocumentDataId ?? null,
+      DocumentPath: (container as Record<string, unknown>).DocumentPath ?? null,
+      DocumentType: (container as Record<string, unknown>).DocumentType ?? null,
+      DocumentSize: Number((container as Record<string, unknown>).DocumentSize ?? 0),
+      DocumentMeta: (container as Record<string, unknown>).DocumentMeta ?? null,
+      DocumentParams: (container as Record<string, unknown>).DocumentParams ?? null,
+      DocumentCacheDeleteTime: Number(
+        (container as Record<string, unknown>).DocumentCacheDeleteTime ?? 0,
+      ),
+      ContainerType: container.ContainerType,
+      ContainerInfoConfig: (container as Record<string, unknown>).ContainerInfoConfig ?? null,
+      Info: baseContainerName ? { BaseContainerName: baseContainerName } : null,
+      ContainerQuality: Number((container as Record<string, unknown>).ContainerQuality ?? 0),
+    }
+  }
+
+  private serializeContainerItemForAddContainerV2(
+    item: PsrContainerItem,
+  ): AddContainerV2ItemPayload {
+    const publicKey =
+      typeof item.PublicKey === 'string' && item.PublicKey.length === 0
+        ? null
+        : (item.PublicKey ?? null)
+
+    return {
+      Name: item.Name ?? null,
+      Description: item.Description ?? null,
+      ContainerItemDescHighlightType: item.ContainerItemDescHighlightType,
+      AllowedChars: (item as Record<string, unknown>).AllowedChars ?? null,
+      AllowOnlyGeneratedPasswords: Boolean(
+        (item as Record<string, unknown>).AllowOnlyGeneratedPasswords,
+      ),
+      BaseContainerItemId: item.BaseContainerItemId ?? null,
+      ChangedOrganisationUnitId: item.ChangedOrganisationUnitId ?? null,
+      CheckPolicy: Boolean((item as Record<string, unknown>).CheckPolicy),
+      ContainerId: item.ContainerId,
+      ContainerItemType: item.ContainerItemType,
+      DataStates: item.DataStates,
+      Id: item.Id,
+      Mandatory: Boolean((item as Record<string, unknown>).Mandatory),
+      MaxLength: Number((item as Record<string, unknown>).MaxLength ?? 0),
+      MinLength: Number((item as Record<string, unknown>).MinLength ?? 0),
+      PolicyId: item.PolicyId ?? null,
+      Position: item.Position,
+      PublicKey: publicKey,
+      Regex: (item as Record<string, unknown>).Regex ?? null,
+      TimeStampUtc: item.TimeStampUtc,
+      Quality: Number((item as Record<string, unknown>).Quality ?? 0),
+      SecretValueRequiredReason:
+        (item as Record<string, unknown>).SecretValueRequiredReason ?? false,
+      NoPermission: Boolean((item as Record<string, unknown>).NoPermission),
+      Value: item.Value ?? null,
+      ValueBool: (item as Record<string, unknown>).ValueBool ?? null,
+      ValueDateUtc: item.ValueDateUtc ?? null,
+      ValueDecimal: (item as Record<string, unknown>).ValueDecimal ?? null,
+      ValueInt: item.ValueInt ?? null,
+      ValueMemo: item.ValueMemo ?? null,
+      EncryptionKeyType: (item as Record<string, unknown>).EncryptionKeyType ?? null,
+    }
   }
 }

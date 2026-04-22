@@ -7,7 +7,7 @@ description: Build applications, scripts, SDK integrations, and typings that com
 
 ## Overview
 
-Use this skill to build working integrations, not just maintain typings. Start from the bundled handbook set in this skill. For JavaScript work, prefer the browser runtime and injected globals first, then use a Node/CommonJS runtime only when the task is explicitly server-side. For .NET work, use the official SDK names and assemblies available in the target environment.
+Use this skill to build working integrations, not just maintain typings. Start from the bundled handbook set in this skill. For JavaScript work, prefer the browser runtime and injected globals first. For Bun or Node work, prefer `@kmuip/pws-sdk` for common integration tasks and drop down to `@kmuip/pws-api` only when you need the low-level parity surface. For .NET work, use the official SDK names and assemblies available in the target environment.
 
 ## Start Here
 
@@ -25,7 +25,8 @@ Use this skill to build working integrations, not just maintain typings. Start f
 - Use public runtime names exactly as they are exposed by the target environment.
 - Keep public spellings unchanged, including `progressToken`, `SearchContainersBrowserSsoList`, and `getTriggerObjektConfigList`.
 - Prefer `window.PsrApi`, `window.PsrApiEnums`, and `window.PsrApiTypes` for browser-facing JavaScript work when the browser runtime is injected by the host environment.
-- For Bun or Node work, prefer `@kmuip/pws-api` when it is available in the workspace.
+- For Bun or Node work, prefer `@kmuip/pws-sdk` first for common application flows.
+- Use `@kmuip/pws-api` when you need low-level manager access, parity behavior, or an escape hatch under `sdk.raw`.
 - Use `@kmuip/pws-types` for TS compile-time shapes when available.
 - For C#/.NET code, use the official SDK names from the docs and assembly surface rather than JS-oriented spellings.
 - Start from the bundled handbook docs when no runtime assets or type package are available locally.
@@ -40,4 +41,6 @@ Use this skill to build working integrations, not just maintain typings. Start f
 - Node runtime handbook: `references/api-docs/node-runtime.md`
 - Implementation examples: `references/examples.md`
 - Live browser payloads: `references/live-ui-payloads.md`
+- SDK package: `@kmuip/pws-sdk`
+- Runtime package: `@kmuip/pws-api`
 - TypeScript package: `@kmuip/pws-types`

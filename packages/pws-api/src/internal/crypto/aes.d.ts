@@ -1,0 +1,13 @@
+import { type CryptoValue } from './shared.js';
+export declare function pbkdf2(password: string, salt: Uint8Array, iterations: number, hash: 'SHA-1' | 'SHA-256', bits: number): Promise<Uint8Array<ArrayBuffer>>;
+export declare function encryptAesGcm(key: CryptoValue, iv: Uint8Array, value: Uint8Array): Promise<Uint8Array<ArrayBuffer>>;
+export declare function decryptAesGcm(key: CryptoValue, iv: Uint8Array, value: Uint8Array): Promise<Uint8Array<ArrayBuffer>>;
+export declare function encryptWithPasswordProviderV2(password: string, plaintext: CryptoValue): Promise<string>;
+export declare function decryptWithPasswordProviderV2(password: string, encryptedValue: CryptoValue): Promise<string>;
+export declare function encryptWithPasswordProviderV3(password: string, plaintext: CryptoValue): Promise<string>;
+export declare function decryptWithPasswordProviderV3(password: string, encryptedValue: CryptoValue): Promise<string>;
+export declare function encryptWithAesGcm(key: CryptoValue, plaintext: CryptoValue): Promise<string>;
+export declare function decryptWithAesGcm(key: CryptoValue, encryptedValue: CryptoValue): Promise<string>;
+export declare function encryptWithAesGcmPadding(key: CryptoValue, plaintext: CryptoValue): Promise<string>;
+export declare function decryptWithAesGcmPadding(key: CryptoValue, encryptedValue: CryptoValue): Promise<string>;
+export declare function generateAesKey(): string;

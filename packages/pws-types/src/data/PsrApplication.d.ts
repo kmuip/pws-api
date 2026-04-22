@@ -1,0 +1,25 @@
+import type { PsrGuid } from '../base';
+export type PsrApplication = {
+    Id: PsrGuid;
+    __type?: string;
+    ChangedOrganisationUnit?: string;
+    ChangedOrganisationUnitId?: string;
+    ChildDataBindings?: any[];
+    DataRights?: any[];
+    DataStates?: any[];
+    DataTags?: any[];
+    HasTrigger?: boolean;
+    HasTriggerAlert?: boolean;
+    IsFavorite?: boolean;
+    LogbookEntries?: any[];
+    ParentDataBindings?: any[];
+    PublicKey?: string;
+    SyncOperation?: string;
+    TimeStampUtc?: Date;
+    TransactionId?: string;
+    ValidTimeStampUtc?: Date;
+    Name?: string;
+    Description?: string;
+    ApplicationType?: string;
+    ApplicationSettings?: string;
+};

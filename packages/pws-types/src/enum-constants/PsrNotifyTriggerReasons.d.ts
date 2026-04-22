@@ -1,0 +1,21 @@
+export declare const PsrNotifyTriggerReasons: {
+    readonly TriggerNew: 1;
+    readonly TriggerEdit: 2;
+    readonly TriggerDelete: 4;
+    readonly TriggerRightChange: 8;
+    readonly TriggerUse: 16;
+    readonly TriggerPasswordShow: 32;
+    readonly TriggerPasswordExpires: 64;
+    readonly TriggerPasswordExpired: 128;
+    readonly TriggerSystemError: 256;
+    readonly TriggerSealRequest: 512;
+    readonly TriggerSealEdit: 1024;
+    readonly TriggerSealReaction: 2048;
+    readonly TriggerRightRequest: 4096;
+    readonly TriggerSealBreak: 8192;
+    readonly TriggerSealRelease: 16384;
+    readonly TriggerMovedToDifferentOu: 32768;
+    readonly TriggerAccessExpires: 65536;
+    readonly TriggerAccessExpired: 131072;
+};
+export type PsrNotifyTriggerReason = (typeof PsrNotifyTriggerReasons)[keyof typeof PsrNotifyTriggerReasons];

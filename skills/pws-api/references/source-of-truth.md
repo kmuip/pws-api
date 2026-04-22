@@ -4,19 +4,21 @@
 
 1. `references/api-docs`
    Self-contained bundled markdown handbooks generated from the published docs.
-2. `@kmuip/pws-api`
-   Preferred Bun and Node runtime package when it is available in the workspace.
-3. `@kmuip/pws-types`
+2. `@kmuip/pws-sdk`
+   Preferred Bun and Node package for common application and automation flows when it is available in the workspace.
+3. `@kmuip/pws-api`
+   Low-level Bun and Node runtime package when you need the raw manager surface or parity-oriented behavior.
+4. `@kmuip/pws-types`
    Declaration package for compile-time shapes when it is available.
-4. Browser runtime globals
+5. Browser runtime globals
    `window.PsrApi`, `window.PsrApiEnums`, and `window.PsrApiTypes` when the host environment injects them.
-5. Node/CommonJS runtime package or vendored bundle
+6. Node/CommonJS runtime package or vendored bundle
    Use this when the target environment exposes Netwrix Password Secure outside the browser.
-6. Official .NET SDK assemblies
+7. Official .NET SDK assemblies
    Use `PsrApi.dll` and its sibling assemblies from the target environment for C# integrations.
-7. Optional official wrapper downloads
+8. Optional official wrapper downloads
    If you need local browser, Node, or .NET runtime artifacts for verification, obtain them from `https://license.passwordsafe.de/kis`.
-8. `references/live-ui-payloads.md`
+9. `references/live-ui-payloads.md`
    Use this for browser-observed write payloads when the live web app is the clearest source of truth.
 
 ## Do Not Assume
@@ -30,7 +32,8 @@
 
 ## For Application Work
 
-- Use the declaration package first to discover available types and manager names.
+- Use `@kmuip/pws-sdk` first for common Bun or Node application work.
+- Use the declaration package to discover available types and manager names.
 - Use the actual runtime exposed by the target environment to confirm the callable surface.
 - Use the live web app payload reference for browser-side create and update flows.
 - Use `PsrApi.dll` plus the bundled docs for C#/.NET surface confirmation.

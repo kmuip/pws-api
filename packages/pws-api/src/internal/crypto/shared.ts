@@ -69,6 +69,38 @@ export function toUint8Array(value: CryptoValue | null | undefined): Uint8Array 
   return Uint8Array.from(new Uint8Array(value))
 }
 
+function looksLikeKeyPrefix(bytes: Uint8Array) {
+  if (bytes.length < 2) {
+    return false
+  }
+
+  return (
+    (bytes[0] === 80 && bytes[1] === 70) ||
+    (bytes[0] === 146 && bytes[1] === 196) ||
+    (bytes[0] === 147 && bytes[1] === 196)
+  )
+}
+
+export function toSerializedKeyBytes(value: CryptoValue | null | undefined): Uint8Array {
+  const bytes = toUint8Array(value)
+  if (looksLikeKeyPrefix(bytes)) {
+    return bytes
+  }
+
+  if (typeof value === 'string') {
+    try {
+      const decoded = Uint8Array.from(Buffer.from(value, 'base64'))
+      if (looksLikeKeyPrefix(decoded)) {
+        return decoded
+      }
+    } catch {
+      return bytes
+    }
+  }
+
+  return bytes
+}
+
 export function binaryToUtf8(value: CryptoValue | null | undefined) {
   return textDecoder.decode(toUint8Array(value))
 }

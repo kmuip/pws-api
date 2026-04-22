@@ -33,6 +33,16 @@ export type PsrSessionToken = {
   csrfToken?: string
 }
 
+export type PsrForkedSessionToken = {
+  Token: PsrSessionToken
+  UserName?: string
+  ClientVersion?: string
+  ClientInstanceId?: string
+  ClientType?: string
+  EncryptionVersion?: number
+  csrfToken?: string
+}
+
 export type PsrUserKey = {
   id: PsrGuid
   privateKey: string

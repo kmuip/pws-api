@@ -4,6 +4,7 @@ import type {
   PsrTemplateGroup,
   PsrDataTagTemplate,
   PsrDataRightTemplateTarget,
+  PsrDataRightTemplateTargetNode,
 } from '../data'
 import { PsrEntityObjectType, PsrRight } from '../enum-constants'
 
@@ -43,6 +44,7 @@ export type TemplateManager = {
     templateGroupId: PsrGuid,
   ): Promise<Iterable<PsrDataTagTemplate>>
   getDataRightTemplateTargets(dataId: PsrGuid | null): Promise<Iterable<PsrDataRightTemplateTarget>>
+  getDataRightTemplateTargetNode(dataId: PsrGuid): Promise<PsrDataRightTemplateTargetNode>
   addTemplateGroup(group: PsrTemplateGroup): Promise<PsrTemplateGroup>
   updateTemplateGroup(group: PsrTemplateGroup): Promise<PsrTemplateGroup>
   deleteTemplateGroup(id: PsrGuid): Promise<void> | void

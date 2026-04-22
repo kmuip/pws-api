@@ -1,0 +1,11 @@
+import type { AsymmetricEccRightKey, CryptoValue, EccPrivateKeyJwk, EccPublicKeyJwk, SymmetricAesRightKey, SymmetricPasswordRightKey } from './shared.js';
+export declare function serializeSymmetricAesRightKey(value: SymmetricAesRightKey): Uint8Array<ArrayBuffer>;
+export declare function deserializeSymmetricAesRightKey(value: CryptoValue): SymmetricAesRightKey;
+export declare function serializeSymmetricPasswordRightKey(value: SymmetricPasswordRightKey): Uint8Array<ArrayBuffer>;
+export declare function deserializeSymmetricPasswordRightKey(value: CryptoValue): SymmetricPasswordRightKey;
+export declare function serializeEccPublicKey(publicKey: EccPublicKeyJwk): Uint8Array<ArrayBuffer>;
+export declare function deserializeEccPublicKey(value: CryptoValue): EccPublicKeyJwk;
+export declare function serializeEccPrivateKey(privateKey: EccPrivateKeyJwk): Uint8Array<ArrayBuffer>;
+export declare function deserializeEccPrivateKey(value: CryptoValue): EccPrivateKeyJwk;
+export declare function serializeAsymmetricEccRightKey(value: AsymmetricEccRightKey): Uint8Array<ArrayBuffer>;
+export declare function deserializeAsymmetricEccRightKey(value: CryptoValue): AsymmetricEccRightKey;

@@ -10,6 +10,7 @@ import {
   concatBytes,
   deserializeCurve521Parameter,
   serializeEccParameter,
+  toSerializedKeyBytes,
   toUint8Array,
 } from './shared.js'
 
@@ -129,7 +130,7 @@ export function serializeEccPublicKey(publicKey: EccPublicKeyJwk) {
 }
 
 export function deserializeEccPublicKey(value: CryptoValue): EccPublicKeyJwk {
-  const [x, y] = decodeMessagePackBinaryArray(toUint8Array(value))
+  const [x, y] = decodeMessagePackBinaryArray(toSerializedKeyBytes(value))
   return {
     x: deserializeCurve521Parameter(x),
     y: deserializeCurve521Parameter(y),
@@ -147,7 +148,7 @@ export function serializeEccPrivateKey(privateKey: EccPrivateKeyJwk) {
 }
 
 export function deserializeEccPrivateKey(value: CryptoValue): EccPrivateKeyJwk {
-  const [d, x, y] = decodeMessagePackBinaryArray(toUint8Array(value))
+  const [d, x, y] = decodeMessagePackBinaryArray(toSerializedKeyBytes(value))
   return {
     d: deserializeCurve521Parameter(d),
     x: deserializeCurve521Parameter(x),

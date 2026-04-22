@@ -1,26 +1,48 @@
-import type { PsrSessionToken, PsrUserKey } from '@kmuip/pws-types'
+import type { PsrForkedSessionToken, PsrSessionToken, PsrUserKey } from '@kmuip/pws-types'
 import { computeCsrfToken } from '../utils.js'
 import type { AuthState, SessionLifecycleDeps } from './types.js'
+
+function normalizeSessionToken(
+  authToken: PsrSessionToken | PsrForkedSessionToken,
+): PsrSessionToken {
+  if ('Token' in authToken && authToken.Token) {
+    const token = { ...authToken.Token } as PsrSessionToken & { $type?: string }
+    delete token.$type
+
+    return {
+      Database: token.Database,
+      SessionId: token.SessionId,
+      SessionKey: token.SessionKey,
+      EncryptionVersion: token.EncryptionVersion ?? authToken.EncryptionVersion,
+      csrfToken: token.csrfToken ?? authToken.csrfToken,
+    }
+  }
+
+  const token = { ...authToken } as PsrSessionToken & { $type?: string }
+  delete token.$type
+  return token
+}
 
 export async function setSessionState(
   deps: SessionLifecycleDeps,
   state: AuthState,
-  authToken: PsrSessionToken,
+  authToken: PsrSessionToken | PsrForkedSessionToken,
   userKeys: PsrUserKey[],
   apiKey?: string,
 ) {
+  const normalizedAuthToken = normalizeSessionToken(authToken)
   const primaryUserKey = userKeys[0]?.privateKey
   const csrfToken =
-    authToken.csrfToken ??
+    normalizedAuthToken.csrfToken ??
     (primaryUserKey
       ? await computeCsrfToken(
-          authToken,
+          normalizedAuthToken,
           primaryUserKey,
           deps.api.encryptionManager.signData.bind(deps.api.encryptionManager),
         )
       : null)
 
-  const sanitizedAuthToken = { ...authToken }
+  const sanitizedAuthToken = { ...normalizedAuthToken }
   delete sanitizedAuthToken.csrfToken
 
   deps.runtimeSession.authToken = sanitizedAuthToken

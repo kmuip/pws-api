@@ -4,7 +4,186 @@ This file bundles practical Netwrix Password Secure integration patterns in a fr
 
 ## Bun Or Node Runtime Package
 
-For server-side integrations, prefer the published runtime package when it is available.
+For server-side integrations, prefer the published SDK package when it is available.
+
+```ts
+import { PsrApiEnums } from '@kmuip/pws-api'
+import { createPwsSdk } from '@kmuip/pws-sdk'
+
+const sdk = await createPwsSdk({
+  url: 'https://pass.example.com/api/',
+  auth: {
+    type: 'apiKey',
+    apiKey: process.env.API_KEY!,
+  },
+})
+
+const tag = await sdk.tags.create({ name: 'shared' })
+
+const password = await sdk.passwords.create({
+  organisationUnitId: '00000000-0000-0000-0000-000000000001',
+  name: 'Example Account',
+  username: 'demo',
+  password: 'correct horse battery staple',
+  tagIds: [tag.id],
+})
+
+const document = await sdk.documents.create({
+  organisationUnitId: '00000000-0000-0000-0000-000000000001',
+  name: 'Runbook',
+  filePath: './runbook.docx',
+  isLink: false,
+})
+
+const recentLogins = await sdk.logbook.list({
+  datePreset: 'last7d',
+  onlyWithInfo: true,
+  pageSize: 10,
+  sortBy: 'timestampUtc',
+  sortDirection: 'desc',
+})
+
+const generated = await sdk.passwordGeneration.generate({
+  mode: 'phonetic',
+  length: 20,
+  syllableCount: 4,
+})
+
+const allowedDocumentTypes = await sdk.optionValues.getAllowedDocumentTypes()
+const smtpConfigured = await sdk.mailing.isSmtpConfigured()
+const bindings = await sdk.dataBindingsSdk.listByData(password.id)
+const adProfiles = await sdk.activeDirectorySync.listProfiles()
+
+const subscription = sdk.subscriptions.onSessionClosed(() => {})
+subscription.unsubscribe()
+
+const nextRoleChange = await sdk.subscriptions.onceRoleChanged({
+  timeoutMs: 30_000,
+})
+
+console.log(nextRoleChange.role.Id)
+
+const role = await sdk.roles.getByName('Administrator')
+
+if (role) {
+  await sdk.rights.grant({
+    dataId: password.id,
+    legitimateId: role.id,
+    rights: PsrApiEnums.PsrRights.RightRead,
+  })
+
+  const formTarget = await sdk.predefinedRights.findTarget('<ou-id>', {
+    dataType: PsrApiEnums.PsrEntityObjectType.EntityObjectTypePassword,
+    name: 'A1',
+  })
+
+  await sdk.predefinedRights.set({
+    dataId: '<ou-id>',
+    legitimateId: role.id,
+    rights: PsrApiEnums.PsrRights.RightRead,
+    dataType: formTarget?.dataType ?? null,
+    targetId: formTarget?.targetId ?? null,
+  })
+}
+
+const [testUser] = await sdk.users.list({
+  username: 'test',
+  pageSize: 1,
+})
+
+if (testUser) {
+  const legitimates = [
+    {
+      legitimateId: sdk.raw.currentUser!.Id,
+      type: 'user' as const,
+      canRelease: true,
+      obligatory: true,
+    },
+    {
+      legitimateId: testUser.id,
+      type: 'user' as const,
+      sealedFor: true,
+    },
+  ]
+
+  const seal = await sdk.seals.create({
+    dataId: password.id,
+    dataType: PsrApiEnums.PsrEntityObjectType.EntityObjectTypePassword,
+    name: `Seal for password "${password.name}"`,
+    requiredReleases: 1,
+    breakRunTime: 72,
+    releaseRunTime: 72,
+    legitimates,
+  })
+
+  await sdk.seals.update(seal.id, {
+    dataId: password.id,
+    dataType: PsrApiEnums.PsrEntityObjectType.EntityObjectTypePassword,
+    name: `Seal for password "${password.name}"`,
+    description: 'Updated through the SDK',
+    requiredReleases: 1,
+    breakRunTime: 48,
+    releaseRunTime: 48,
+    legitimates,
+  })
+}
+
+await sdk.logout()
+```
+
+Use `sdk.raw` only when you need exact parity objects or session internals. Most manager surfaces are available directly on the SDK now, for example:
+
+```ts
+const smtpConfigured = await sdk.mailing.isSmtpConfigured()
+const policies = await sdk.policies.getPolicies()
+const accessRights = sdk.apiKeys.getAccessRights(process.env.API_KEY!)
+```
+
+## Session Sharing
+
+Use a forked session bundle when another SDK client or browser-side helper should reuse an existing authenticated session.
+
+```ts
+import { createPwsSdk, createPwsSdkFromSession } from '@kmuip/pws-sdk'
+
+const source = await createPwsSdk({
+  url: 'https://pass.example.com/api/',
+  auth: {
+    type: 'password',
+    database: 'testapi2',
+    username: process.env.ADMIN_USERNAME!,
+    password: process.env.ADMIN_PASSWORD!,
+  },
+})
+
+const bundle = await source.sessions.fork()
+
+const adopted = await createPwsSdkFromSession('https://pass.example.com/api/', bundle)
+```
+
+## Microsoft / OIDC Login
+
+For OIDC-backed users, first ask the server for the provider login URL, then hand the callback fragment back to the SDK.
+
+```ts
+import { beginPwsOidcLogin } from '@kmuip/pws-sdk'
+
+const login = await beginPwsOidcLogin('https://pass.example.com/api/', {
+  database: 'pg',
+  username: 'lukas.zbinden@example.com',
+  redirectUrl: 'https://app.example.com/auth/callback',
+})
+
+// Open login.loginUrl in a browser and wait for the redirect back to your callback URL.
+const callbackUrl =
+  'https://app.example.com/auth/callback#code=...&state=...&session_state=...'
+
+const sdk = await login.complete(callbackUrl)
+```
+
+## Bun Or Node Runtime Layer
+
+When you need the raw parity-oriented manager surface, use `@kmuip/pws-api` directly.
 
 ```ts
 import { PsrApi } from '@kmuip/pws-api'

@@ -571,6 +571,19 @@ export const serviceManifest = {
     ],
     "transport": "postData"
   },
+  "addContainerV2": {
+    "args": [
+      "t"
+    ],
+    "endpoint": "AddContainerV2",
+    "payload": [
+      [
+        "container",
+        "t"
+      ]
+    ],
+    "transport": "postData"
+  },
   "initContainerItem": {
     "args": [
       "t"
@@ -2706,6 +2719,19 @@ export const serviceManifest = {
     ],
     "transport": "postData"
   },
+  "getTagGlobalUsageInfos": {
+    "args": [
+      "t"
+    ],
+    "endpoint": "GetTagGlobalUsageInfos",
+    "payload": [
+      [
+        "take",
+        "t"
+      ]
+    ],
+    "transport": "postData"
+  },
   "addTag": {
     "args": [
       "t",
@@ -2952,6 +2978,19 @@ export const serviceManifest = {
       "t"
     ],
     "endpoint": "GetDataRightTemplateTargets",
+    "payload": [
+      [
+        "dataId",
+        "t"
+      ]
+    ],
+    "transport": "postData"
+  },
+  "getDataRightTemplateTargetNode": {
+    "args": [
+      "t"
+    ],
+    "endpoint": "GetDataRightTemplateTargetNode",
     "payload": [
       [
         "dataId",
@@ -4157,6 +4196,19 @@ export const managerManifest = {
       ],
       "serviceMethod": "addOrganisationUnitGroup"
     },
+    "addOrganisationUnitUser": {
+      "args": [
+        "t",
+        "e",
+        "a",
+        "o",
+        "i",
+        "r",
+        "n",
+        "p"
+      ],
+      "serviceMethod": "addOrganisationUnitUser2"
+    },
     "updateOrganisationUnitGroup": {
       "args": [
         "t"
@@ -4662,6 +4714,12 @@ export const managerManifest = {
         "t"
       ],
       "serviceMethod": "getDataRightTemplateTargets"
+    },
+    "getDataRightTemplateTargetNode": {
+      "args": [
+        "t"
+      ],
+      "serviceMethod": "getDataRightTemplateTargetNode"
     },
     "addTemplateGroup": {
       "args": [

@@ -1,0 +1,11 @@
+import type { PsrAuthenticationRequirement, PsrAuthenticationRequirementSet } from '@kmuip/pws-types';
+import type { AuthenticationResultCompleted, AuthenticationUserKeySignatureRequirement, AuthState } from './types.js';
+export declare function isObject(value: unknown): value is Record<string, any>;
+export declare function isUserKeySignatureRequirement(value: unknown): value is AuthenticationUserKeySignatureRequirement;
+export declare function isCompletedAuthentication(value: unknown): value is AuthenticationResultCompleted;
+export declare function throwOnFailedLogin(step: Record<string, any>): void;
+export declare function getLatestAuthStep(state: AuthState): unknown;
+export declare function matchesAuthType(value: unknown, authType: string): boolean;
+export declare function parsePossibleRequirements(requirements: unknown[], state: Pick<AuthState, 'username'>): PsrAuthenticationRequirement[];
+export declare function parseRequirementSet(step: unknown, state: Pick<AuthState, 'sessionId' | 'username'>): PsrAuthenticationRequirementSet;
+export declare function trackAuthStep(state: AuthState, step: Record<string, any>): void;

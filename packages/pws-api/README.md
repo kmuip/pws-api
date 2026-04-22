@@ -4,6 +4,8 @@ Runtime package for Netwrix Password Secure in Bun and Node.
 
 This package provides a usable `PsrApi` runtime with the current JavaScript API surface, plus typed exports aligned with `@kmuip/pws-types`.
 
+For typical application work, prefer `@kmuip/pws-sdk` first. Use `@kmuip/pws-api` when you need direct access to the low-level manager surface or parity-oriented behavior.
+
 ## Install
 
 ```bash
@@ -32,7 +34,7 @@ await api.authenticationManagerV2.logout()
 - preserves the current JS runtime naming and manager surface
 - published package is native runtime code
 - legacy wrapper files are not required for normal builds; add them temporarily under `legacy/` only when doing parity or regeneration work
-- browser-facing write operations are not yet fully parity-complete; see `PARITY-NOTES.md`
+- browser-observed write paths such as `AddContainerV2`, `AddOrganisationUnitUser2`, and `AddOrganisationUnitGroup` are the main parity anchors for create/update operations; see `PARITY-NOTES.md`
 
 ## License
 

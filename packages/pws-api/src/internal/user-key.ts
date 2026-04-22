@@ -79,7 +79,9 @@ export class RuntimeUserKeyManager {
   ) {}
 
   encryptDataRightKey(publicKey: string, key: string | Uint8Array | null) {
-    return key ? this.encryptionManager.encryptWithPublicKey(publicKey, key) : null
+    return key
+      ? this.encryptionManager.encryptRightKeyWithPublicKey(fromBase64(publicKey), key)
+      : null
   }
 
   async decryptContainerItem(item: PsrContainerItem, reason: string) {
@@ -243,7 +245,7 @@ export class RuntimeUserKeyManager {
         continue
       }
 
-      const encrypted = await this.encryptionManager.encryptWithPublicKey(
+      const encrypted = await this.encryptionManager.encryptRightKeyWithPublicKey(
         fromBase64(right.LegitimatePublicKey),
         normalizedPrivateKey,
       )

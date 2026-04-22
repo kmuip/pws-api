@@ -14,6 +14,11 @@ type ForwardServiceClient = Record<string, (...args: unknown[]) => Promise<unkno
     onTouched?: TouchCallback,
     apiKeyToken?: string | null,
   ): void
+  addContainerV2(
+    container: unknown,
+    parentOrganisationUnitId?: string | null,
+    rightInheritanceOptions?: unknown,
+  ): Promise<unknown>
   getContainerItemWithSecretValue(itemId: string, reason: string): Promise<unknown>
   openSession(): Promise<unknown>
   closeSession(): Promise<unknown>
@@ -75,6 +80,25 @@ export function createWebServiceClient(
     client[methodName] = async (...args: unknown[]) =>
       hydrateResponse(await baseMethod(...args), typeConstructors)
   }
+
+  client.addContainerV2 = async (
+    container: unknown,
+    parentOrganisationUnitId?: string | null,
+    rightInheritanceOptions?: unknown,
+  ) =>
+    hydrateResponse(
+      await httpClient.post(
+        'WebService',
+        'AddContainerV2',
+        {
+          container,
+          parentOrganisationUnitId: parentOrganisationUnitId ?? null,
+          rightInheritanceOptions: rightInheritanceOptions ?? null,
+        },
+        true,
+      ),
+      typeConstructors,
+    )
 
   client.getContainerItemWithSecretValue = async (itemId: string, reason: string) =>
     hydrateResponse(

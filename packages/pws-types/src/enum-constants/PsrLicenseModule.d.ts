@@ -1,0 +1,28 @@
+export declare const PsrLicenseModules: {
+    readonly ModuleLicenseManagementOu: 0;
+    readonly ModuleAuditingAndReports: 1;
+    readonly ModuleNotificationSystem: 2;
+    readonly ModuleRealTimeUpdate: 3;
+    readonly ModuleAdIntegration: 4;
+    readonly ModuleAutomaticReports: 5;
+    readonly ModulePasswortReset: 6;
+    readonly ModuleApi: 7;
+    readonly ModulePki: 8;
+    readonly ModuleTwoFactorAuth: 9;
+    readonly ModuleDatabaseFirewall: 10;
+    readonly ModuleHsm: 11;
+    readonly ModuleSessionRecording: 12;
+    readonly ModuleSessionMonitoring: 13;
+    readonly ModuleOfflineAccess: 14;
+    readonly ModuleClustering: 15;
+    readonly ModuleTempRights: 16;
+    readonly ModuleTaskSystem: 17;
+    readonly ModuleSystemScanForPasswordReset: 18;
+    readonly ModuleManagingPrivilegedAccounts: 19;
+    readonly ModulePasswordLockSso: 20;
+    readonly ModuleSeal: 21;
+    readonly ModuleOfflineMode: 22;
+    readonly ModuleReplication: 23;
+    readonly ModuleDesasterWebAccess: 24;
+};
+export type PsrLicenseModule = (typeof PsrLicenseModules)[keyof typeof PsrLicenseModules];
